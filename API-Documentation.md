@@ -85,7 +85,7 @@ Creates user session
 - Request
 
   - Method: POST
-  - Route path: /api/session/login
+  - Route path: /api/auth/login
   - Body:{
       credential,
       Password}
@@ -103,7 +103,7 @@ Ends a users session
 - Request
 
   - Method: GET
-  - Route path: /api/session/logout
+  - Route path: /api/auth/logout
 
 - Successful Response
   - Status Code: 200
@@ -118,7 +118,7 @@ Creates a new user in the DB, and returns current users info, logs them in
 - Request
 
   - Method: POST
-  - Route path: /api/session/signup
+  - Route path: /api/auth/signup
   - Body:{
     username,
     firstName,

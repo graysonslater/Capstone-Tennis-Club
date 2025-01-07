@@ -15,7 +15,6 @@ class User_Events(db.Model):
 
     def to_dict(self):
         return {
-            'id': self.id,
             'user_id': self.user_id,
             'event_id': self.event_id,
             'guests': self.guests,

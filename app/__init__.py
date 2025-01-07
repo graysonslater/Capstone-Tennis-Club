@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.event_routes import event_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -15,7 +16,6 @@ app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-
 
 @login.user_loader
 def load_user(id):
@@ -26,20 +26,20 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 
 app.config.from_object(Config)
+
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(event_routes, url_prefix='/api/events')
+
 db.init_app(app)
+
 Migrate(app, db)
 
 # Application Security
 CORS(app)
 
 
-# Since we are deploying with Docker and Flask,
-# we won't be using a buildpack when we deploy to Heroku.
-# Therefore, we need to make sure that in production any
-# request made over http is redirected to https.
-# Well.........
+#redirect http to https
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -49,6 +49,7 @@ def https_redirect():
             return redirect(url, code=code)
 
 
+#add csrf token
 @app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
