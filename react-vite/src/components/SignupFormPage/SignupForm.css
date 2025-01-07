@@ -1,0 +1,124 @@
+.outterSignup {
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    align-content: center;
+  }
+  
+  .innerSignup {
+    /* border: 2px solid rgb(0, 0, 0); */
+    background-color: rgb(0, 0, 0);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    justify-content: end;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .glowSec {
+    background-color: rgb(0, 0, 0);
+    /* border: 2px solid rgb(0, 0, 0); */
+    height: fit-content;
+    width: fit-content;
+  }
+  
+  .glowH2 {
+    color: rgb(8, 8, 8);
+    font-size: clamp(50px, 6vw, 90px);
+    text-align: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 0px;
+    animation: animate 5s linear infinite;
+    animation-name: glow;
+  }
+  
+  .glowH2:nth-child(1) {
+    animation-delay: 1s;
+  }
+  .glowH2:nth-child(2) {
+    animation-delay: 2s;
+  }
+  .glowH2:nth-child(3) {
+    animation-delay: 3s;
+  }
+  .glowH2:nth-child(4) {
+    animation-delay: 4s;
+  }
+  .glowH2:nth-child(5) {
+    animation-delay: 5s;
+  }
+  
+  @keyframes glow {
+    0%,
+    100% {
+      color: rgb(255, 255, 255);
+      filter: blur(2px);
+      text-shadow: 0 0 10px rgb(0, 102, 0), 0 0 20px rgb(0, 102, 0), 0 0 40px rgb(0, 102, 0),
+        0 0 80px rgb(0, 102, 0), 0 0 120px rgb(0, 102, 0), 0 0 20px rgb(0, 102, 0),
+        0 0 30px rgb(0, 102, 0), 0 0 40px rgb(0, 102, 0);
+    }
+    5%,
+    95% {
+      color: rgb(8, 8, 8);
+      filter: blur(0px);
+      text-shadow: none;
+    }
+  }
+  
+  .signupSec {
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid rgb(255, 255, 255); */
+    border-radius: 10px;
+    height: fit-content;
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .signupForm {
+    margin-bottom: 50px;
+  }
+  
+  .signupSec div {
+    margin: 20px;
+  }
+  
+  .signupInput {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+  
+  .signupButton {
+    width: 270px;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .signupButton:hover {
+    width: 280px;
+    height: 40px;
+  }
+  
+  .signupLink {
+    text-decoration: none;
+    color: rgb(255, 215, 0);
+  }
+  
+  .signupLink:hover {
+    color: rgb(255, 0, 0);
+  }
+  
+  @media screen and (max-width: 700px) {
+    .glowSec {
+        display: none;
+    }
+  }
+  

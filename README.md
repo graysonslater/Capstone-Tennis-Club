@@ -2,6 +2,9 @@
 
 This is the starter for the Flask React project.
 
+flask db init, flask db migrate -m "text", flask db upgrade, flask seed  all
+
+
 ## Getting started
 
 1. Clone this repository (only this branch).
