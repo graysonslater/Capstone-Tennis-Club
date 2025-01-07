@@ -1,6 +1,5 @@
 from app.models import db, Events, environment, SCHEMA
 from sqlalchemy.sql import text
-
 from datetime import datetime
 
 def seed_events():
@@ -22,28 +21,15 @@ def seed_events():
         {'id': 15, "event_name": "Legends of Tennis Exhibition", "registration_price": 200.00, "event_date": datetime.strptime('2026-05-12', '%Y-%m-%d').date()},
     ]
 
+    events = []
     for event in events_data:
         new_event = Events(
-            id=event['id'],
             event_name=event['event_name'],
             registration_price=event['registration_price'],
-            event_date=event['event_date']  # This is now a date object
+            event_date=event['event_date']
         )
-        db.session.add(new_event)
+        events.append(new_event)
 
-    db.session.commit()
-
-
-    events = []
-    for events_data in events_data:
-        event = Events(
-            id=events_data['id'],
-            event_name=events_data['event_name'],
-            registration_price=events_data['registration_price'],
-            event_date=events_data['event_date'],
-        )
-        events.append(event)
-    
     db.session.add_all(events)
     db.session.commit()
 
