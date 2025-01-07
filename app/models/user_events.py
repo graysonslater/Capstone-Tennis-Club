@@ -7,8 +7,8 @@ class User_Events(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    user_id = db.Column(db.Integer, nullable=False,primary_key=True)
-    event_id = db.Column(db.Integer, nullable=False,primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id'), ondelete="CASCADE"), nullable=False, primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('events.id')), nullable=False,primary_key=True)
     guests = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

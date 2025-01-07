@@ -6,8 +6,8 @@ from sqlalchemy.sql import text
 def seed_users():
     users_data = [
         {'username': 'Pistol Pete', 'firstname': 'Pete', 'lastname': 'Sampras', 'email': 'demo@aa.io', 'password': 'password'},
-        {'username': 'Ace1 ', 'firstname': 'Ace ', 'lastname': 'Servington', 'email': 'marnie@aa.io', 'password': 'password'},
-        {'username': 'Volley1 ', 'firstname': 'Volley', 'lastname': 'McSlam', 'email': 'bobbie@aa.io', 'password': 'password'},
+        {'username': 'Ace1 ', 'firstname': 'Ace ', 'lastname': 'Servington', 'email': 'Ace@aa.io', 'password': 'password'},
+        {'username': 'Volley1 ', 'firstname': 'Volley', 'lastname': 'McSlam', 'email': 'Volley@aa.io', 'password': 'password'},
         {'username': 'Racket1', 'firstname': 'Racket', 'lastname': 'McBackhand', 'email': 'demo1@aa.io', 'password': 'password'},
         {'username': 'FedEx', 'firstname': 'Roger', 'lastname': 'Federer', 'email': 'demo2@aa.io', 'password': 'password'},
         {'username': 'The Djoker', 'firstname': 'Novak', 'lastname': 'Djokovic', 'email': 'demo3@aa.io', 'password': 'password'},

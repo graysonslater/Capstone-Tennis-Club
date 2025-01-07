@@ -12,6 +12,8 @@ class Events(db.Model):
     registration_price = db.Column(db.Integer, nullable=False)
     event_date = db.Column(db.Date, nullable=False)
 
+    event_to_user = db.relationship("User", secondary="user_events", back_populates="user_to_events")
+
     def to_dict(self):
         return {
             'id': self.id,

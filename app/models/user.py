@@ -18,11 +18,11 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    
-    
-
-    # portfolios = db.relationship("Portfolio", backref="user", cascade="all, delete-orphan")
-    # watchlists = db.relationship("Watchlist", backref="user", cascade="all, delete-orphan")
+    user_to_events = db.relationship("Events", secondary="user_events", back_populates="event_to_user")
+    user_events = db.relationship("User_Events", backref="user", cascade="all, delete-orphan")
+    reservations = db.relationship("Reservations", backref="user", cascade="all, delete-orphan")
+    photos = db.relationship("Photos", backref="user", cascade="all, delete-orphan")
+    photo_comments = db.relationship("Photo_Comments", backref="user", cascade="all, delete-orphan")
 
     @property
     def password(self):

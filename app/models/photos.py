@@ -8,10 +8,12 @@ class Photos(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db. ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     photo_url = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    photo_comments = db.relationship("Photo_Comments", backref="photos", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
