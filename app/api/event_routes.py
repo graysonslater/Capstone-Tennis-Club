@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import Events, User_Events, db
-from flask_login import current_user
 
 event_routes = Blueprint("events", __name__)
 
@@ -66,6 +65,8 @@ def edit_event(url_event_id):
     event = User_Events.query.filter_by(user_id=current_user.id,event_id=url_event_id).first()
     if not event:
         return jsonify({"error": "Event not found"}), 404
+    if event.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
     event.guests= data["guests"]
     db.session.commit()
     return jsonify(event.to_dict()), 200

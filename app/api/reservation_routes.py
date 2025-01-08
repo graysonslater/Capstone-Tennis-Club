@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import Reservations, db
-from flask_login import current_user
 from datetime import datetime
 
 reservation_routes = Blueprint("reservations", __name__)
@@ -65,6 +64,8 @@ def edit_reservation(reservation_id):
     reservation = Reservations.query.filter_by(id=reservation_id).first()
     if not reservation:
         return jsonify({'message': 'no reservation found'}), 404
+    if reservation.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
     
     # convert date input so it can be stored in db
     date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S.%f')
@@ -103,6 +104,8 @@ def delete_reservation(reservation_id):
     reservation = Reservations.query.filter_by(id=reservation_id).first()
     if not reservation:
         return jsonify({"error": "reservation not found"}), 404
+    if reservation.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
     db.session.delete(reservation)
     db.session.commit()
     return jsonify({"msg": "reservation deleted"}), 200

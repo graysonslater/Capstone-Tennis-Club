@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import Comments, db
-from flask_login import current_user
 
 comment_routes = Blueprint("comments", __name__)
 
@@ -36,17 +35,18 @@ def post_comment(url_photo_id):
     return jsonify(new_comment.to_dict()), 200
 
 
-@comment_routes.route('/edit_comment', methods=['PATCH'])
+@comment_routes.route('/<int:comment_id>', methods=['PATCH'])
 @login_required 
-def edit_comment():
+def edit_comment(comment_id):
     """
-    Post a new event to a user
-    request must include the new comment, comments ID and the photos ID!!!
+    Edit a comment a user has written
     """
     data = request.json
-    comment = Comments.query.filter_by(user_id=current_user.id,photo_id=data["photoId"],id=data['id']).first()
+    comment = Comments.query.filter_by(id=comment_id).first()
     if not comment:
         return jsonify({"error": "comment not found"}), 404
+    if comment.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
     comment.comment= data["comment"]
     db.session.commit()
     return jsonify(comment.to_dict()), 200
@@ -57,12 +57,13 @@ def edit_comment():
 def delete_event():
     """
     Delete a comment a user has left on a photo
-    request must include the comments ID and the photos ID!!!
     """
     data = request.json
-    comment = Comments.query.filter_by(user_id=current_user.id,photo_id=data["photoId"],id=data['id']).first()
+    comment = Comments.query.filter_by(id=data['id']).first()
     if not comment:
         return jsonify({"error": "comment not found"}), 404
+    if comment.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
     db.session.delete(comment)
     db.session.commit()
     return jsonify({"msg": "comment deleted"}), 200

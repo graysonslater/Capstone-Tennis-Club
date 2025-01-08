@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import User, db
-from decimal import Decimal
 
 user_routes = Blueprint('users', __name__)
 
@@ -26,7 +25,9 @@ def update_user(user_id):
     
     user = User.query.filter_by(id=user_id).first()
     if not user: 
-        return jsonify({'message': 'User not found'}), 404 
+        return jsonify({'message': 'User not found'}), 404
+    if user.id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401 
     data = request.get_json() 
     user.username = data['username']  
     user.email = data['email']

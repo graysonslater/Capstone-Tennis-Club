@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.models import Photos, User, db
-from flask_login import current_user
+
 
 photo_routes = Blueprint("photos", __name__)
 
@@ -70,3 +70,36 @@ def post_photo():
     db.session.add(new_photo)
     db.session.commit()
     return jsonify(new_photo.to_dict()), 200
+
+
+@photo_routes.route('/<int:photo_id>', methods=['PATCH'])
+@login_required 
+def edit_photo(photo_id):
+    """
+    Edit a photo a user has written
+    """
+    data = request.json
+    photo = Photos.query.filter_by(id=photo_id).first()
+    if not photo:
+        return jsonify({"error": "photo not found"}), 404
+    if photo.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
+    photo.caption= data["caption"]
+    db.session.commit()
+    return jsonify(photo.to_dict()), 200
+
+
+@photo_routes.route('/<int:photo_id>', methods=['DELETE'])
+@login_required
+def delete_event(photo_id):
+    """
+    Delete a photo
+    """
+    photo = Photos.query.filter_by(id=photo_id).first()
+    if not photo:
+        return jsonify({"error": "photo not found"}), 404
+    if photo.user_id != current_user.id:
+        return jsonify({"error": "unautherized"}), 401
+    db.session.delete(photo)
+    db.session.commit()
+    return jsonify({"msg": "photo deleted successfully"}), 200
