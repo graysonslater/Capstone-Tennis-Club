@@ -1,9 +1,8 @@
-from app.models import db, Photo_Comments, environment, SCHEMA
+from app.models import db, Comments, environment, SCHEMA
 from sqlalchemy.sql import text
-from datetime import datetime
 
-def seed_photo_comments():
-    photo_comments_data = [
+def seed_comments():
+    comments_data = [
         {'user_id': 2, 'photo_id': 1, 'comment': 'Great backhand technique!'},
         {'user_id': 3, 'photo_id': 1, 'comment': 'Nice court, where is this?'},
         {'user_id': 4, 'photo_id': 1, 'comment': 'Intense rally, well played!'},
@@ -66,22 +65,22 @@ def seed_photo_comments():
         {'user_id': 4, 'photo_id': 15, 'comment': 'Set for an intense game'}
     ]
 
-    photos = []
-    for photo_data in photo_comments_data:
-        photo = Photo_Comments(
-            user_id=photo_data['user_id'],
-            photo_id=photo_data['photo_id'],
-            comment=photo_data['comment'],
+    comments = []
+    for comment_data in comments_data:
+        comment = Comments(
+            user_id=comment_data['user_id'],
+            photo_id=comment_data['photo_id'],
+            comment=comment_data['comment'],
         )
-        photos.append(photo)
+        comments.append(comment)
 
-    db.session.add_all(photos)
+    db.session.add_all(comments)
     db.session.commit()
 
-def undo_photo_comments():
+def undo_comments():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM photo_comments"))
+        db.session.execute(text("DELETE FROM comments"))
         
     db.session.commit()

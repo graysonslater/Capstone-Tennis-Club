@@ -4,7 +4,7 @@ from .events import seed_events, undo_events
 from .user_events import seed_user_events, undo_user_events
 from .reservations import seed_reservations, undo_reservations
 from .photos import seed_photos, undo_photos
-from .photo_comments import seed_photo_comments, undo_photo_comments
+from .comments import seed_comments, undo_comments
 
 from app.models.db import db, environment, SCHEMA
 
@@ -22,14 +22,14 @@ def seed():
         undo_user_events()
         undo_reservations()
         undo_photos()
-        undo_photo_comments()
+        undo_comments()
 
     seed_users()
     seed_events()
     seed_user_events()
     seed_reservations()
     seed_photos()
-    seed_photo_comments()
+    seed_comments()
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
@@ -39,4 +39,4 @@ def undo():
     undo_user_events()
     seed_reservations()
     undo_photos()
-    undo_photo_comments()
+    undo_comments()

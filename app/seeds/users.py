@@ -5,14 +5,14 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_users():
     users_data = [
-        {'username': 'Pistol Pete', 'firstname': 'Pete', 'lastname': 'Sampras', 'email': 'demo@aa.io', 'password': 'password'},
-        {'username': 'Ace1 ', 'firstname': 'Ace ', 'lastname': 'Servington', 'email': 'Ace@aa.io', 'password': 'password'},
-        {'username': 'Volley1 ', 'firstname': 'Volley', 'lastname': 'McSlam', 'email': 'Volley@aa.io', 'password': 'password'},
-        {'username': 'Racket1', 'firstname': 'Racket', 'lastname': 'McBackhand', 'email': 'demo1@aa.io', 'password': 'password'},
-        {'username': 'FedEx', 'firstname': 'Roger', 'lastname': 'Federer', 'email': 'demo2@aa.io', 'password': 'password'},
-        {'username': 'The Djoker', 'firstname': 'Novak', 'lastname': 'Djokovic', 'email': 'demo3@aa.io', 'password': 'password'},
-        {'username': 'Wild Thing', 'firstname': 'Nick', 'lastname': 'Kyrgios', 'email': 'demo4@aa.io', 'password': 'password'},
-        {'username': 'Cool Guy', 'firstname': 'Grayson', 'lastname': 'Slater', 'email': 'demo5@aa.io', 'password': 'password'},
+        {'username': 'Pistol Pete', 'firstname': 'Pete', 'lastname': 'Sampras', 'email': 'demo1@aa.io', 'password': 'password'},
+        {'username': 'Ace1 ', 'firstname': 'Ace ', 'lastname': 'Servington', 'email': 'demo2@aa.io', 'password': 'password'},
+        {'username': 'Volley1 ', 'firstname': 'Volley', 'lastname': 'McSlam', 'email': 'demo3@aa.io', 'password': 'password'},
+        {'username': 'Racket1', 'firstname': 'Racket', 'lastname': 'McBackhand', 'email': 'demo4@aa.io', 'password': 'password'},
+        {'username': 'FedEx', 'firstname': 'Roger', 'lastname': 'Federer', 'email': 'demo5@aa.io', 'password': 'password'},
+        {'username': 'The Djoker', 'firstname': 'Novak', 'lastname': 'Djokovic', 'email': 'demo6@aa.io', 'password': 'password'},
+        {'username': 'Wild Thing', 'firstname': 'Nick', 'lastname': 'Kyrgios', 'email': 'demo7@aa.io', 'password': 'password'},
+        {'username': 'Cool Guy', 'firstname': 'Grayson', 'lastname': 'Slater', 'email': 'demo8@aa.io', 'password': 'password'},
     ]
 
     users = []

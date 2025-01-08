@@ -22,7 +22,7 @@ class User(db.Model, UserMixin):
     user_events = db.relationship("User_Events", backref="user", cascade="all, delete-orphan")
     reservations = db.relationship("Reservations", backref="user", cascade="all, delete-orphan")
     photos = db.relationship("Photos", backref="user", cascade="all, delete-orphan")
-    photo_comments = db.relationship("Photo_Comments", backref="user", cascade="all, delete-orphan")
+    comments = db.relationship("Comments", backref="user", cascade="all, delete-orphan")
 
     @property
     def password(self):

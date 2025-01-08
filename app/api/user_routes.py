@@ -5,24 +5,13 @@ from decimal import Decimal
 
 user_routes = Blueprint('users', __name__)
 
-
-@user_routes.route('/<int:id>')
-@login_required
-def user(id):
-    """
-    Query for a user by id and returns that user in a dictionary
-    """
-    user = User.query.get(id)
-    return user.to_dict()
-
-
-@user_routes.route('/user/<int:user_id>', methods=['GET'])
+@user_routes.route('/<int:user_id>', methods=['GET'])
 @login_required 
 def get_user(user_id): 
     """
     Find user by id
     """
-    user = User.get(user_id) 
+    user = User.query.filter_by(id=user_id).first()
     if not user: 
         return jsonify({'message': 'User not found'}), 404 
     return jsonify(user.to_dict())
@@ -62,4 +51,3 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({'message': 'User deleted successfully'})
-

@@ -133,6 +133,22 @@ Creates a new user in the DB, and returns current users info, logs them in
 
 ## User_Events Routes
 
+### Get all Events 
+
+gets the current users events
+
+- Require Authentication: true
+- Request
+
+  - Method: GET
+  - Route path: /api/events/
+  - Body:
+
+- Successful Response
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+
 ### Get all Events for current user
 
 gets the current users events
@@ -141,15 +157,13 @@ gets the current users events
 - Request
 
   - Method: GET
-  - Route path: /api/events/:userId
+  - Route path: /api/events/user_events
   - Body:
 
 - Successful Response
   - Status Code: 200
   - Headers:
     - Content-Type: application/json
-  - Body:
-    {- event_id}
 
 ### Post an event to a user
 
@@ -182,7 +196,7 @@ edits number of guests attending event
 - Request
 
   - Method: PATCH
-  - Route path: /api/portfolios/:portfolioId
+  - Route path: /api/events/:eventId
   - Body:{
     guests}
 
@@ -206,7 +220,7 @@ deletes event for the user
 - Request
 
   - Method: DELETE
-  - Route path: /api/events/:userId/:eventId
+  - Route path: /api/events/:eventId
   - Body:
 
 - Successful Response
@@ -421,7 +435,7 @@ deletes reservation for user, allows other users to reserve that time slot
     - Content-Type: application/json
   - Body: {msg: "photo deleted"}
 
-## Photo comments routes
+## Comments routes
 
 ### Get all comments for a photo
 
@@ -474,7 +488,7 @@ allows user to change the text of their comment after it is posted
 - Request
 
   - Method: PATCH
-  - Route path: /api/comments/:commentId
+  - Route path: /api/comments
   - Body:{
     comment}
 
@@ -499,7 +513,7 @@ deletes comment
 - Request
 
   - Method: DELETE
-  - Route path: /api/comments/:commentId
+  - Route path: /api/comments
   - Body:
 
 - Successful Response

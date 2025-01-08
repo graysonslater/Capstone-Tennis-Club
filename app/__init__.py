@@ -8,6 +8,9 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
+from .api.comment_routes import comment_routes
+from .api.reservation_routes import reservation_routes
+from .api.photo_routes import photo_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -30,6 +33,9 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(event_routes, url_prefix='/api/events')
+app.register_blueprint(comment_routes, url_prefix='/api/comments')
+app.register_blueprint(reservation_routes, url_prefix='/api/reservations')
+app.register_blueprint(photo_routes, url_prefix='/api/photos')
 
 db.init_app(app)
 
