@@ -5,9 +5,12 @@ Revises:
 Create Date: 2025-01-10 15:15:13.086143
 
 """
+
+import os
 from alembic import op
 import sqlalchemy as sa
-
+environment = os.environ.get("FLASK_ENV")
+schema_name = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
 revision = '23c201856ccc'
@@ -79,7 +82,15 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    if environment == "production":
+        op.execute(f"ALTER TABLE Comments SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE Events SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE Photos SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE Reservations SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE User_Events SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE Users SET SCHEMA {schema_name};")
     # ### end Alembic commands ###
+    
 
 
 def downgrade():
@@ -91,3 +102,4 @@ def downgrade():
     op.drop_table('users')
     op.drop_table('events')
     # ### end Alembic commands ###
+
