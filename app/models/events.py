@@ -1,5 +1,5 @@
 # imports database instance, the schema variable, method for adding a prefix to table names
-from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .db import db, environment, SCHEMA
 
 class Events(db.Model):
     __tablename__ = "events"
