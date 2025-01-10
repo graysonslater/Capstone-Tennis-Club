@@ -39,8 +39,6 @@ RUN pip install psycopg2
 COPY . .
 
 #run commands to create and populate DB
-RUN flask db init
-RUN flask db migrate -m "test"
 RUN flask db upgrade
 RUN flask seed all
 
