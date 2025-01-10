@@ -26,6 +26,9 @@ WORKDIR /var/www
 #Copies the requirements.txt file from the host to the current directory in the container
 COPY requirements.txt .
 
+RUN apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps build-base postgresql-dev musl-dev
+
 #Installs Python packages listed in requirements.txt
 RUN pip install -r requirements.txt
 
