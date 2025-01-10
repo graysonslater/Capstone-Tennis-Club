@@ -6,5 +6,3 @@ pycache/
 .vscode/
 .Pipfile
 .Pipfile.lock
-/instance
-/migrations
