@@ -2,6 +2,12 @@ from .db import db, environment, SCHEMA
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import relationship
+from typing import List
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -9,7 +15,7 @@ class User(db.Model, UserMixin):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(40), nullable=False, primary_key=True)
     username = db.Column(db.String(40), nullable=False)
     firstname = db.Column(db.String(40), nullable=False)
     lastname = db.Column(db.String(40), nullable=False)
@@ -18,7 +24,7 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    user_to_events = db.relationship("Events", secondary="user_events", back_populates="event_to_user")
+    # user_to_events : Mapped[List["user_events"]] = relationship("Events"back_populates="event_to_user")
     user_events = db.relationship("User_Events", backref="user", cascade="all, delete-orphan")
     reservations = db.relationship("Reservations", backref="user", cascade="all, delete-orphan")
     photos = db.relationship("Photos", backref="user", cascade="all, delete-orphan")
