@@ -2,10 +2,6 @@ from .db import db, environment, SCHEMA
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import relationship
 from typing import List
 
 
@@ -25,10 +21,12 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # user_to_events : Mapped[List["user_events"]] = relationship("Events"back_populates="event_to_user")
-    user_events = db.relationship("User_Events", backref="user", cascade="all, delete-orphan")
-    reservations = db.relationship("Reservations", backref="user", cascade="all, delete-orphan")
-    photos = db.relationship("Photos", backref="user", cascade="all, delete-orphan")
-    comments = db.relationship("Comments", backref="user", cascade="all, delete-orphan")
+    #                       point to model  points to connecter on user_events          
+    # events = db.relationship("User_Events", back_populates='user',cascade="all, delete-orphan")
+    
+    reservations = db.relationship("Reservations", backref="users", cascade="all, delete-orphan")
+    photos = db.relationship("Photos", backref="users", cascade="all, delete-orphan")
+    comments = db.relationship("Comments", backref="users", cascade="all, delete-orphan")
 
     @property
     def password(self):
@@ -49,3 +47,4 @@ class User(db.Model, UserMixin):
             'lastname': self.lastname,
             'email': self.email,            
         }
+    

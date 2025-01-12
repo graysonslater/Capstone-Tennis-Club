@@ -1,7 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+
 
 class User_Events(db.Model):
     __tablename__ = 'user_events'
@@ -14,6 +13,9 @@ class User_Events(db.Model):
     guests = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # user = db.relationship('User', back_populates="events")
+    # event = db.relationship('Event', back_populates="user_events")
 
     def to_dict(self):
         return {

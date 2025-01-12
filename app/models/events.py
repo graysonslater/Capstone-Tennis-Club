@@ -12,7 +12,7 @@ class Events(db.Model):
     registration_price = db.Column(db.Integer, nullable=False)
     event_date = db.Column(db.Date, nullable=False)
 
-    # event_to_user = db.relationship("User", secondary="user_events", back_populates="user_to_events")
+    # user_events = db.relationship("User_Events", back_populates="event")
 
     def to_dict(self):
         return {
