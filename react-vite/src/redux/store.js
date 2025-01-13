@@ -7,11 +7,13 @@ import {
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import eventsReducer from "./events";
+import reservationsReducer from "./reservations";
 
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  events: eventsReducer
+  events: eventsReducer,
+  reservations: reservationsReducer
 });
 
 let enhancer;

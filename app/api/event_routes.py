@@ -16,6 +16,7 @@ def get_all_events():
     return jsonify([event.to_dict() for event in events])
 
 
+#!RELATIONSHIP IS NOT SET UP CORRECTLY, THIS MUST BE CHANGED LATER!!!!!!
 @event_routes.route('/user_events', methods=['GET'])
 @login_required 
 def get_users_events(): 
@@ -23,9 +24,11 @@ def get_users_events():
     Get all events for current user
     """
     events = User_Events.query.filter_by(user_id=current_user.id).all()
-    if not events: 
+    event_ids = [event.event_id for event in events]
+    found_events = Events.query.filter(Events.id.in_(event_ids)).all()
+    if not found_events: 
         return jsonify({'message': 'no events found'}), 404 
-    return jsonify([event.to_dict() for event in events])
+    return jsonify([event.to_dict() for event in found_events])
 
 
 @event_routes.route('/<int:event_id>', methods=['POST'])

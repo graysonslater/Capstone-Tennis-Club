@@ -6,12 +6,12 @@ from datetime import datetime
 reservation_routes = Blueprint("reservations", __name__)
 
 
-@reservation_routes.route('/<int:url_user_id>', methods=["GET"])
-def users_reservations(url_user_id):
+@reservation_routes.route('/user_reservations', methods=["GET"])
+def users_reservations():
     """
     Get all reservations for a user
     """
-    reservations = Reservations.query.filter_by(user_id= url_user_id).all()
+    reservations = Reservations.query.filter_by(user_id= current_user.id).all()
     if not reservations:
         return jsonify({'message': 'no reservations found'}), 404
     return jsonify([reservation.to_dict() for reservation in reservations])

@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import LoginFormPage from "../components/LoginFormPage";
 import SignupFormPage from "../components/SignupFormPage";
 import LandingPage from "../components/LandingPage/LandingPage";
+import ProfilePage from "../components/ProfilePage/ProfilePage";
 
 
 export const router = createBrowserRouter([
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/profile",
-				element: <>Profile page</>,
+				element: <ProfilePage />,
 			},
 			{
 				path: "/reservations",

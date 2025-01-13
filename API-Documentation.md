@@ -239,7 +239,7 @@ gets the current users court reservations
 - Request
 
   - Method: GET
-  - Route path: /api/reservations/:userId
+  - Route path: /api/reservations/user_reservations
   - Body:
 
 - Successful Response

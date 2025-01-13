@@ -4,7 +4,6 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import { allEvents } from "../../redux/events";
 import SlideShow from "./SlideShow";
 
@@ -16,10 +15,10 @@ import SlideShow from "./SlideShow";
 function LandingPage(){
     const dispatch = useDispatch();
 
-    const events = useSelector((state)=> {
+    const events = useSelector((state) => {
         return state.events.allEvents;
     });
-    console.log("LANDING PAGE= ",events)
+    
     useEffect(()=> {
         dispatch(allEvents())
     },[dispatch]);
