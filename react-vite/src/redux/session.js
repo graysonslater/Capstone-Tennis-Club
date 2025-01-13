@@ -31,7 +31,7 @@ const deleteUser = () => ({
 })
 
 /***********************************************************************************************************************************************/
-//*                            THUNKS
+//*                             THUNKS
 /***********************************************************************************************************************************************/
 
 //autherize
@@ -48,6 +48,7 @@ export const thunkAuthenticate = () => async (dispatch) => {
 
 //login
 export const thunkLogin = (credentials) => async dispatch => {
+  console.log("SESSION STORE= ", credentials)
   const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import ProfileButton from "./ProfileButton";
+// import ProfileButton from "./ProfileButton";
 import { useSelector } from "react-redux";
 import "./Navigation.css";
 
@@ -23,21 +23,27 @@ function Navigation() {
         {user ? (
           <>
             <div className="navBarComponent">
-              <NavLink className="navBarLink" to="/portfolios">
-                Portfolio
+              <NavLink className="navBarLink" to="/profile" >
+                Profile
               </NavLink>
-              <NavLink className="navBarLink" to="/watchlists">
-                Watchlist
+              <NavLink className="navBarLink" to="/reservations">
+                Reserve A Court
               </NavLink>
-              <NavLink className="navBarLink" to="/stocks">
-                Stocks
+              <NavLink className="navBarLink" to="/events">
+                Events
+              </NavLink>
+              <NavLink className="navBarLink" to="/photos">
+                Photos
               </NavLink>
             </div>
-            <ProfileButton />
+            {/* <ProfileButton /> */}
           </>
         ) : (
           <>
             <div className="navBarLoginSignupBtn">
+              <NavLink className="navBarLink" to="/events">
+                Events
+              </NavLink>
               <button className="navBarLoginBtn" onClick={login}>
                 Login
               </button>

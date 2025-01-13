@@ -1,5 +1,4 @@
-/* Styles for the navigation bar */
-.navBar {
+.foot {
     border: 2px solid black; /* Black border around the entire nav bar */
     background-color: #f8f9fa; /* Light background color for contrast */
     padding: 10px; /* Padding inside the nav bar */

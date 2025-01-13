@@ -6,7 +6,6 @@ event_routes = Blueprint("events", __name__)
 
 
 @event_routes.route('/', methods=['GET'])
-@login_required 
 def get_all_events(): 
     """
     Get all events 
