@@ -8,14 +8,15 @@ class User_Events(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    user_id= db.Column(db.Integer, nullable=False,primary_key=True) # removed db.Integer, db.ForeignKey(add_prefix_for_prod('users.id'),
-    event_id = db.Column(db.Integer, nullable=False,primary_key=True) #removed db.ForeignKey(add_prefix_for_prod('events.id')),
+    user_id= db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False,primary_key=True) # removed db.Integer, db.ForeignKey(add_prefix_for_prod('users.id'),
+    event_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('events.id')), nullable=False,primary_key=True) #removed db.ForeignKey(add_prefix_for_prod('events.id')),
     guests = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    # user = db.relationship('User', back_populates="events")
-    # event = db.relationship('Event', back_populates="user_events")
+    
+    #!FAILED ASSOSIATION ATTEMPT!!!!
+    user = db.relationship('User', back_populates='user_events')
+    event = db.relationship('Events', back_populates='user_events')
 
     def to_dict(self):
         return {

@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Events, User_Events, db
+from sqlalchemy import func
+from datetime import datetime
 
 event_routes = Blueprint("events", __name__)
 
@@ -25,7 +27,12 @@ def get_users_events():
     """
     events = User_Events.query.filter_by(user_id=current_user.id).all()
     event_ids = [event.event_id for event in events]
-    found_events = Events.query.filter(Events.id.in_(event_ids)).all()
+
+    current_date = datetime.now().date()
+    found_events = Events.query.filter(Events.id.in_(event_ids))\
+        .order_by(func.abs(func.julianday(Events.event_date) - func.julianday(current_date)))\
+        .all()
+    
     if not found_events: 
         return jsonify({'message': 'no events found'}), 404 
     return jsonify([event.to_dict() for event in found_events])

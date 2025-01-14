@@ -1,4 +1,10 @@
 /***********************************************************************************************************************************************/
+//*                             IMPORTS
+/***********************************************************************************************************************************************/
+
+import { getUserById } from "./session";
+
+/***********************************************************************************************************************************************/
 //*                             ACTION OBJECTS
 /***********************************************************************************************************************************************/
 
@@ -30,9 +36,9 @@ export const allEvents = () => async (dispatch) => {
 };
 
 
-//get all of a users events
+// get all of a users events //!IS THIS THUNK UNESSESARY????
 export const usersEvents = () => async (dispatch) => {
-    const request = await fetch('api/events/user_events');
+    const request = await fetch('/api/events/user_events');
     const response = await request.json();
     dispatch(usersEventsAO(response));
     return response;
@@ -40,23 +46,28 @@ export const usersEvents = () => async (dispatch) => {
 
 
 //edit a users event
-export const editEvent = (info) => async (dispatch) => {
-    const request = await fetch(`api/events/${info.eventId}`,{
+export const editEventThunk = (info) => async (dispatch) => {
+    const request = await fetch(`/api/events/${info.eventId}`,{
         method: "PATCH",
-        body:{
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
             "guests": info.guests
-        }
+        })
     });
     const response = await request.json();
+    dispatch(getUserById(info.userId))
     dispatch(usersEventsAO(response));
     return response;
 };
 
 
 //Delete a users event (does not delete the event itself)
-export const deleteEvent = (eventId) => async (dispatch) => {
-    const request = await fetch(`api/events/${eventId}`,{method:"DELETE"});
+export const deleteEvent = (info) => async (dispatch) => {
+    const request = await fetch(`api/events/${info.eventId}`,{method:"DELETE"});
     const response = await request.json();
+    dispatch(getUserById(info.userId))
     dispatch(usersEventsAO(response));
     return response;
 };

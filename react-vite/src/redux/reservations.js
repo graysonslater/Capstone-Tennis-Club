@@ -26,10 +26,10 @@ export const usersReservations =() => async (dispatch) => {
 export const editReservation = (info) => async (dispatch) => {
     const request = await fatech(`api/reservations/${info.reservationId}`,{
         method: "PATCH",
-        body:{
+        body: JSON.stringify({
             "date": info.date,
             "players": info.players 
-        }
+        })
     });
     const response = await request.json()
     dispatch(usersReservations());

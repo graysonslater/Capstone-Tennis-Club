@@ -1,5 +1,6 @@
 # imports database instance, the schema variable, method for adding a prefix to table names
 from .db import db, environment, SCHEMA
+from .user import User
 
 class Events(db.Model):
     __tablename__ = "events"
@@ -12,7 +13,9 @@ class Events(db.Model):
     registration_price = db.Column(db.Integer, nullable=False)
     event_date = db.Column(db.Date, nullable=False)
 
-    # user_events = db.relationship("User_Events", back_populates="event")
+    #!FAILED ASSOSIATION ATTEMPT!!!!
+    user_events = db.relationship('User_Events', back_populates='event')
+    users = db.relationship('User', secondary='user_events', back_populates='events')
 
     def to_dict(self):
         return {
