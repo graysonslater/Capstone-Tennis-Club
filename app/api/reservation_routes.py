@@ -7,6 +7,7 @@ reservation_routes = Blueprint("reservations", __name__)
 
 
 @reservation_routes.route('/user_reservations', methods=["GET"])
+@login_required
 def users_reservations():
     """
     Get all reservations for a user
@@ -18,6 +19,7 @@ def users_reservations():
 
 
 @reservation_routes.route('/', methods=["POST"])
+@login_required
 def post_reservation():
     """
     Post a new reservation for the current user
@@ -25,7 +27,7 @@ def post_reservation():
     data=request.json
     
     # convert date input so it can be stored in db
-    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S.%f')
+    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
     
     # check if user already has a reservation at the desired time
     double_resrvation = Reservations.query.filter_by(date= date_obj,user_id=current_user.id).all()
@@ -55,12 +57,15 @@ def post_reservation():
 
 
 @reservation_routes.route('/<int:reservation_id>', methods=["PATCH"])
+@login_required
 def edit_reservation(reservation_id):
     """
     Edit a reservation, change date and number of players 
     """
     
     data=request.json
+    
+    # find the reservation to update
     reservation = Reservations.query.filter_by(id=reservation_id).first()
     if not reservation:
         return jsonify({'message': 'no reservation found'}), 404
@@ -68,7 +73,7 @@ def edit_reservation(reservation_id):
         return jsonify({"error": "unautherized"}), 401
     
     # convert date input so it can be stored in db
-    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S.%f')
+    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
     
     # check if user already has a reservation at the desired time
     double_resrvation = Reservations.query.filter_by(date= date_obj,user_id=current_user.id).all()
@@ -109,3 +114,31 @@ def delete_reservation(reservation_id):
     db.session.delete(reservation)
     db.session.commit()
     return jsonify({"msg": "reservation deleted"}), 200
+
+
+@reservation_routes.route('/reservation_check', methods=["POST"])
+@login_required
+def reservation_check():
+    """
+    Verifies that:
+        1) User has no previously existing reservation for that date/time
+        2) There is an open court at desired date and time
+    Returns an error message if criteria is met, returns false if reservation is OK
+    """
+    data=request.json
+    
+    # convert date input so it can be stored in db
+    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
+    
+    # check if user already has a reservation at the desired time
+    double_resrvation = Reservations.query.filter_by(date= date_obj,user_id=current_user.id).all()
+    if double_resrvation:
+        return jsonify({'error': f'user has previously existing reservation at: {date_obj}'})
+    
+    # check if there is an open court and assign court number
+    multiple_reservations = Reservations.query.filter_by(date=date_obj).all()
+    if multiple_reservations and len(multiple_reservations) >= 6:
+        return jsonify({'error': f'all courts reserved for: {date_obj}'})
+   
+    # reservation passes all checks
+    return jsonify(False), 200

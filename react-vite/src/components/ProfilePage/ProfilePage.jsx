@@ -5,9 +5,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/session";
-import {editEventThunk, deleteEvent } from "../../redux/events";
-import { usersReservations, editReservation, deleteReservation } from "../../redux/reservations";
-import CustomModal from "./CustomModal";
+import {editEventThunk, deleteEvent} from "../../redux/events";
+import {editReservation, deleteReservation, reservationCheck} from "../../redux/reservations";
+import CustomModal from "../../context/CustomModal";
 import "./ProfilePage.css"
 
 /***********************************************************************************************************************************************/
@@ -19,12 +19,11 @@ function ProfilePage(){
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
-    console.log("PROFILE FRONT user= ", user, "EVENTS= ", events, "RESERVATIONS= ", reservations)
+    console.log("PROFILE FRONT user= ", user)
     
     useEffect(() => {
         dispatch(getUserById(user.id))
     },[dispatch]);
-
 
 /***********************************************************************************************************************************************/
 //*                             EDIT EVENT
@@ -46,7 +45,6 @@ function ProfilePage(){
         setShowEdit(false);
     }
  
-
     //toggle for modal
 	const editEventToggle = (e, event) => {
 		e.preventDefault();
@@ -95,7 +93,6 @@ function ProfilePage(){
         )
     };
 
-
 /***********************************************************************************************************************************************/
 //*                             DELETE EVENT
 // flask db init, flask db migrate, flask db upgrade, flask seed  all
@@ -104,8 +101,7 @@ function ProfilePage(){
     //set modal state
 	const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 	const [eventToDelete, setEventToDelete] = useState(null);
-
-
+    
 	//send delete to thunk
 	const handleDelete = (e, eventId) => {
 		e.preventDefault();
@@ -116,7 +112,6 @@ function ProfilePage(){
         }));
 		setShowConfirmDelete(false);
 	};
-
 
 	//toggle for modal
 	const deleteEventToggle = (e, event) => {
@@ -130,7 +125,6 @@ function ProfilePage(){
 		}
 		setShowConfirmDelete(!showConfirmDelete);
 	};
-
 
     const DeleteEventModal = () => {
         return(
@@ -147,7 +141,226 @@ function ProfilePage(){
 							>
 								Confirm
 							</button>
-							<button type="button" onClick={(e) => deleteEvent(e)}>
+							<button type="button" onClick={(e) => deleteEventToggle(e)}>
+								Cancel
+							</button>
+						</div>
+					</CustomModal>
+				)}
+			</>
+        )
+    };
+
+/***********************************************************************************************************************************************/
+//*                             EDIT RESERVATION
+/***********************************************************************************************************************************************/
+    
+    const [showReservation, setShowReservation] = useState(false);
+    const [reservationToEdit, setReservationToEdit] = useState();
+    const [newDate, setNewDate] = useState();
+    const [newPlayers, setNewPlayers] = useState();
+    const [newTime, setNewTime] = useState()
+    const [minDate, setMinDate] = useState('');
+    const [maxDate, setMaxDate] = useState('');
+    const [errors, setEditErrors] = useState({});
+
+    //use a for loop to create avalable times for drop down menu
+    const availableTimes = [];
+    for (let hour = 9; hour <= 20; hour++) {
+        availableTimes.push(`${hour.toString().padStart(2, '0')}:00`);
+    }
+
+    //set min and max date for date selection menu
+    useEffect(() => {
+        //get todays date
+        const today = new Date();
+        //set todays date as minimum date
+        setMinDate(today.toISOString().split('T')[0]);
+        //create a new variable to be used for assigning max date
+        const nextYear = new Date(today);
+        //add 1 year to current date
+        nextYear.setFullYear(today.getFullYear() + 1);
+        //set max date using next year date
+        setMaxDate(nextYear.toISOString().split('T')[0]);
+    }, [dispatch]);
+
+    //event handler for edit Reservation
+    const handleReservationEdit = async (e, reservationId) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        //error handling for date/time
+        setEditErrors({});
+        let errors = {};
+        if (!newDate){
+            errors.date = "Choose a date!";
+        }
+        if (!newTime){
+            errors.time = "Choose a Time!";
+        }
+        if (Object.keys(errors).length > 0) {
+            setEditErrors(errors);
+            return;
+        }
+
+        //format date/time for backend
+        const formattedDate = newDate.split('T')[0] + ' ' + newTime + ':00';
+
+        //check if reservation update is valid
+        const check =  await dispatch(reservationCheck({
+            date: formattedDate,
+            players: newPlayers,
+        }))
+        if (check){
+            errors.check = check.error
+        }
+        if (Object.keys(errors).length > 0) {
+            setEditErrors(errors);
+            return;
+          }
+        //if check returns false, send request to backend
+        dispatch(editReservation({
+            date: formattedDate,
+            players: newPlayers,
+            reservationId: reservationId,
+            userId: user.id
+        }))
+        setNewTime()
+        setNewDate()
+        //close the modal
+        setShowReservation(false);
+    }
+
+    //toggle for edit reservation modal
+    const reservationEventToggle = (e, reservation) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (reservation) {
+            setReservationToEdit(reservation);
+            // setNewDate(reservation.date)
+            setNewPlayers(reservation.players)
+        } else {
+            setReservationToEdit(null);
+            
+        }
+        setShowReservation(!showReservation);
+    };
+
+    //html for modal
+    const EditReservationModal = () => {
+        return(
+            <>
+                {showReservation && (
+                    <CustomModal onClose={(e) => reservationEventToggle(e)}>
+                        <div className="ProfileEditResTitle">Update your reservation for {reservationToEdit.date.replace('T', ' at ').slice(0, -3)}?</div>
+                        <div className="ProfileEditResButtons">
+                            <label className="editResPlayers">
+                                Players:
+                                <input
+                                    type="number"
+                                    min='1'
+                                    max="4"
+                                    value={newPlayers}
+                                    onChange={(e) => setNewPlayers(e.target.value)}
+                                />
+                            </label>
+                            <label className="editResDate">
+                                Date:
+                                <input
+                                    type="date"
+                                    min={minDate}
+                                    max={maxDate}
+                                    value={newDate}
+                                    onChange={(e) => setNewDate(e.target.value)}
+                                />
+                                {errors.date && (
+                                    <span className="ReservationErrors">{errors.date}</span>
+                                )}
+                            </label>
+                            <label className="editResDate">
+                                Time:
+                                <div>
+                                    Time:
+                                    <select value={newTime} onChange={(e) => setNewTime(e.target.value)} required>
+                                        <option value="" disabled>Select a time</option>
+                                        {availableTimes.map((time) => (
+                                            <option key={time} value={time}>
+                                                {time}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div> 
+                                {errors.time && (
+                                    <span className="ReservationErrors">{errors.time}</span>
+                                )}                        
+                            </label>
+                            <button
+                                type="button"
+                                onClick={(e) => handleReservationEdit(e, reservationToEdit.id)}
+                            >
+                                Confirm
+                            </button>
+                            <button type="button" onClick={reservationEventToggle}>
+                                cancel
+                            </button>
+                            {errors.check && (
+                                <span className="ReservationErrors">{errors.check}</span>
+                            )}
+                        </div>
+                    </CustomModal>
+                )}
+            </>
+        )
+    };
+
+/***********************************************************************************************************************************************/
+//*                             DELETE RESERVATION
+/***********************************************************************************************************************************************/
+    
+    //set modal state
+	const [showResDelete, setShowResDelete] = useState(false);
+	const [resToDelete, setResToDelete] = useState(null);
+    
+	//send delete to thunk
+	const handleReservationDelete = (e, reservationId) => {
+		e.preventDefault();
+		e.stopPropagation();
+		dispatch(deleteReservation({
+            reservationId: reservationId,
+            userId: user.id
+        }));
+		setShowResDelete(false);
+	};
+
+	//toggle for modal
+	const deleteReservationToggle = (e, event) => {
+		e.preventDefault();
+		e.stopPropagation();
+        
+        if (event) {
+			setResToDelete(event);
+		} else {
+			setResToDelete(null);
+		}
+		setShowResDelete(!showResDelete);
+	};
+
+    const DeleteReservationModal = () => {
+        return(
+            <>
+				{showResDelete && (
+					<CustomModal onClose={deleteReservationToggle}>
+						<div className="deleteMessage">
+							Cancel your participation in {resToDelete.event_name}?
+						</div>
+						<div className="deleteButtons">
+							<button
+								type="button"
+								onClick={(e) => handleReservationDelete(e, resToDelete.id)}
+							>
+								Confirm
+							</button>
+							<button type="button" onClick={(e) => deleteReservationToggle(e)}>
 								Cancel
 							</button>
 						</div>
@@ -169,8 +382,8 @@ function ProfilePage(){
                 <p>Firstname: {user.firstname}</p>
                 <p>Lastname: {user.lastname}</p>
                 <>Email: {user.email}</>
-                <p className="ProfileInfoRes">Upcoming Reservations: {reservations.length > 0 ? reservations.length : "None"}</p>
                 <p className="ProfileInfoEvents">Upcoming Events: {user.events.length > 0 ? user.events.length : "None"}</p>
+                <p className="ProfileInfoRes">Upcoming Reservations: {user.reservations.length > 0 ? user.reservations.length : "None"}</p>
             </div>
             <div className="ProfileEvents">
                 <h2 className="ProfileEventsHeader">Events</h2>
@@ -179,11 +392,10 @@ function ProfilePage(){
                         <li key={event.event_id} className={`ProfileELI${event.event_id}`}>
                             <p>{event.event_name}</p>
                             <p>Registration Price: {event.registration_price}</p>
-                            <p>Date: {event.event_date}</p>
+                            <p>Date: {event.event_date.replace('T', ' at ').slice(0, -3)}</p>
                             <p>Geusts: {event.guests}</p>
                             <button className="ProfileEditEventButton" type="button" onClick={(e) => editEventToggle(e, event)}>Edit</button>
-                            {console.log("HTML=",event)}
-                            <button className="ProfileDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, event)}>Delete</button>
+                            <button className="EventDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, event)}>Delete</button>
                         </li>
                     ))}
 
@@ -195,14 +407,21 @@ function ProfilePage(){
             <div className="ProfileReservations">
                 <h2 className="ProfileReservationsHeader">Reservations</h2> 
                 <ul className="ProfileReservationList">
+                
                     {user.reservations.map((reservation) => (
                         <li key={reservation.id} className={`ProfileRLI${reservation.id}`}>
                             <p>Reservation Number: {reservation.id}</p>
                             <p>Players: {reservation.players}</p>
                             <p>Court Number: {reservation.court_number}</p>
-                            <p>Date: {reservation.date}</p>
+                            <p>Date: {reservation.date.replace('T', ' at ').slice(0, -3)}</p>
+                            <button className="ProfileEditReservationButton" type="button" onClick={(e) => reservationEventToggle(e, reservation)}>Edit</button>
+                            <button className="ReservationDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, reservation)}>Delete</button>
                         </li>
                     ))}
+
+                    {/* RESERVATION MODALS */}
+                    <EditReservationModal />
+                    <DeleteReservationModal />
                 </ul>
             </div>
         </div>
