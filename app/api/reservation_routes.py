@@ -64,7 +64,7 @@ def edit_reservation(reservation_id):
     """
     
     data=request.json
-    
+    print("BACKEND= ",data)
     # find the reservation to update
     reservation = Reservations.query.filter_by(id=reservation_id).first()
     if not reservation:
@@ -73,8 +73,10 @@ def edit_reservation(reservation_id):
         return jsonify({"error": "unautherized"}), 401
     
     # convert date input so it can be stored in db
-    date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
-    
+    if data['date'] != "None":
+        date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
+    else:
+        date_obj = None
     # check if user already has a reservation at the desired time
     double_resrvation = Reservations.query.filter_by(date= date_obj,user_id=current_user.id).all()
     if double_resrvation:
@@ -92,7 +94,8 @@ def edit_reservation(reservation_id):
     if not multiple_reservations:
         court_number = 1
     
-    reservation.date= date_obj
+    if date_obj != None:
+        reservation.date= date_obj
     reservation.players= data['players']
     reservation.court_number= court_number
 

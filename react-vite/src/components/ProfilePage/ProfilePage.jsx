@@ -4,7 +4,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getUserById } from "../../redux/session";
+import { getUserById, editUser, thunkDeleteUser } from "../../redux/session";
 import {editEventThunk, deleteEvent} from "../../redux/events";
 import {editReservation, deleteReservation, reservationCheck} from "../../redux/reservations";
 import CustomModal from "../../context/CustomModal";
@@ -19,7 +19,7 @@ function ProfilePage(){
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
-    console.log("PROFILE FRONT user= ", user)
+    // console.log("PROFILE FRONT user= ", user)
     
     useEffect(() => {
         dispatch(getUserById(user.id))
@@ -189,6 +189,18 @@ function ProfilePage(){
         e.preventDefault();
         e.stopPropagation();
 
+        if(!newDate && !newTime){
+            dispatch(editReservation({
+                date: "None",
+                players: newPlayers,
+                reservationId: reservationId,
+                userId: user.id
+            }))
+            setNewTime()
+            setNewDate()
+            setShowReservation(false);
+        }
+
         //error handling for date/time
         setEditErrors({});
         let errors = {};
@@ -235,6 +247,8 @@ function ProfilePage(){
     const reservationEventToggle = (e, reservation) => {
         e.preventDefault();
         e.stopPropagation();
+        setEditErrors({})
+        console.log("EDIT RES TEST")
         if (reservation) {
             setReservationToEdit(reservation);
             // setNewDate(reservation.date)
@@ -350,10 +364,10 @@ function ProfilePage(){
             <>
 				{showResDelete && (
 					<CustomModal onClose={deleteReservationToggle}>
-						<div className="deleteMessage">
-							Cancel your participation in {resToDelete.event_name}?
+						<div className="deleteRESMessage">
+							Cancel your reservation for {resToDelete.date.replace('T', ' at ').slice(0, -3)}?
 						</div>
-						<div className="deleteButtons">
+						<div className="deleteRESButtons">
 							<button
 								type="button"
 								onClick={(e) => handleReservationDelete(e, resToDelete.id)}
@@ -367,6 +381,102 @@ function ProfilePage(){
 					</CustomModal>
 				)}
 			</>
+        )
+    };
+
+/***********************************************************************************************************************************************/
+//*                             EDIT USER
+/***********************************************************************************************************************************************/
+
+    //! STATE CHANGES CAUSE THE ENTIRE PAGE TO
+    const [showEditUser, setShowEditUser] = useState(false);
+    const [username, setUsername] = useState(user.username);
+    const [firstname, setFirstname] = useState(user.firstname);
+    const [lastname, setLastname] = useState(user.lastname);
+    const [email, setEmail] = useState(user.email);
+
+    //event handler for edit
+    const handleUserEdit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(editUser({
+            userId: user.id,
+            username: username,
+            firstname: firstname,
+            lastname: lastname,
+            email: email
+        }))
+        setShowEditUser(false);
+    }
+
+    //toggle for modal
+    const editUserToggle = (e, userToUpdate) => {
+        e.preventDefault();
+		e.stopPropagation();
+        console.log("FRONT USER TO UPDATE= ", userToUpdate)
+		if (userToUpdate) {
+            console.log("USER T U present TEST")
+			setEventToEdit(userToUpdate);
+			setUsername(userToUpdate.username)
+		} else {
+			setEventToEdit(null);
+			
+		}
+		setShowEditUser(!showEditUser);
+    };
+
+    const EditUserModal = () => {
+        return(
+            <>
+                {showEditUser && (
+                    <CustomModal onClose={(e) => editUserToggle(e)}>
+                        <div className="ProfileUserEditTitle">Edit Profile Information</div>
+                        <div className="ProfileUserEditButtons">
+                            <label className="editCurrentUser">
+                                Username:
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Firstname:
+                                <input
+                                    type="text"
+                                    value={firstname}
+                                    onChange={(e) => setFirstname(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Lastname:
+                                <input
+                                    type="text"
+                                    value={lastname}
+                                    onChange={(e) => setLastname(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Email:
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </label>
+                            <button
+                                type="button"
+                                onClick={(e) => handleUserEdit(e)}
+                            >
+                                Confirm
+                            </button>
+                            <button type="button" onClick={editUserToggle}>
+                                cancel
+                            </button>
+                        </div>
+                    </CustomModal>
+                )}
+            </>
         )
     };
 
@@ -384,6 +494,11 @@ function ProfilePage(){
                 <>Email: {user.email}</>
                 <p className="ProfileInfoEvents">Upcoming Events: {user.events.length > 0 ? user.events.length : "None"}</p>
                 <p className="ProfileInfoRes">Upcoming Reservations: {user.reservations.length > 0 ? user.reservations.length : "None"}</p>
+                <button className="ProfileEditUserButton" type="button" onClick={(e) => editUserToggle(e, user)}>Edit</button>
+                <button className="EventDeleteUserBut" type="button" onClick={(e) => deleteUserToggle(e, user)}>Delete</button>
+
+                {/* USER MODALS */}
+                <EditUserModal />
             </div>
             <div className="ProfileEvents">
                 <h2 className="ProfileEventsHeader">Events</h2>
@@ -394,7 +509,7 @@ function ProfilePage(){
                             <p>Registration Price: {event.registration_price}</p>
                             <p>Date: {event.event_date.replace('T', ' at ').slice(0, -3)}</p>
                             <p>Geusts: {event.guests}</p>
-                            <button className="ProfileEditEventButton" type="button" onClick={(e) => editEventToggle(e, event)}>Edit</button>
+                            <button className="ProfileEditEventButton" type="button" onClick={(e) => editEventToggle(e)}>Edit</button>
                             <button className="EventDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, event)}>Delete</button>
                         </li>
                     ))}
@@ -415,7 +530,7 @@ function ProfilePage(){
                             <p>Court Number: {reservation.court_number}</p>
                             <p>Date: {reservation.date.replace('T', ' at ').slice(0, -3)}</p>
                             <button className="ProfileEditReservationButton" type="button" onClick={(e) => reservationEventToggle(e, reservation)}>Edit</button>
-                            <button className="ReservationDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, reservation)}>Delete</button>
+                            <button className="ReservationDeleteBut" type="button" onClick={(e) => deleteReservationToggle(e, reservation)}>Delete</button>
                         </li>
                     ))}
 
