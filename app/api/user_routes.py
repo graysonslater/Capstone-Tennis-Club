@@ -22,13 +22,14 @@ def update_user(user_id):
     """
     Update a user
     """
-    
+    print("BACKEND PRINT TEST")
     user = User.query.filter_by(id=user_id).first()
     if not user: 
         return jsonify({'message': 'User not found'}), 404
     if user.id != current_user.id:
         return jsonify({"error": "unautherized"}), 401 
     data = request.get_json() 
+    print("BACKEND= ", data)
     user.username = data['username']  
     user.email = data['email']
     user.lastname= data['lastname']

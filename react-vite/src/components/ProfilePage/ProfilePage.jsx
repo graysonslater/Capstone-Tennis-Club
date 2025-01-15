@@ -4,10 +4,12 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getUserById, editUser, thunkDeleteUser } from "../../redux/session";
 import {editEventThunk, deleteEvent} from "../../redux/events";
 import {editReservation, deleteReservation, reservationCheck} from "../../redux/reservations";
 import CustomModal from "../../context/CustomModal";
+
 import "./ProfilePage.css"
 
 /***********************************************************************************************************************************************/
@@ -16,6 +18,7 @@ import "./ProfilePage.css"
 
 function ProfilePage(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
@@ -24,6 +27,158 @@ function ProfilePage(){
     useEffect(() => {
         dispatch(getUserById(user.id))
     },[dispatch]);
+
+/***********************************************************************************************************************************************/
+//*                             EDIT USER
+/***********************************************************************************************************************************************/
+
+    //! STATE CHANGES CAUSE THE ENTIRE PAGE TO RELOAD????
+    //! MUST IMPLEMENT EMAIL AND USERNAME CHECK!!!!
+    //! MUST VERIFY EMAIL IS IN CORRECT FORMAT
+    const [showEditUser, setShowEditUser] = useState(false);
+    const [username, setUsername] = useState();
+    const [firstname, setFirstname] = useState();
+    const [lastname, setLastname] = useState();
+    const [email, setEmail] = useState();
+
+    //event handler for edit
+    const handleUserEdit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(editUser({
+            userId: user.id,
+            username: username,
+            firstname: firstname,
+            lastname: lastname,
+            email: email
+        }))
+        setShowEditUser(false);
+    }
+
+    //toggle for modal
+    const editUserToggle = (e, userToUpdate) => {
+        e.preventDefault();
+		e.stopPropagation();
+        console.log("FRONT USER TO UPDATE= ", userToUpdate)
+		if (userToUpdate) {
+            console.log("USER To Update present TEST= ", userToUpdate)
+			setEventToEdit(userToUpdate);
+			setUsername(userToUpdate.username)
+		} else {
+			setEventToEdit(null);
+			
+		}
+		setShowEditUser(!showEditUser);
+    };
+
+    const EditUserModal = () => {
+        return(
+            <>
+                {showEditUser && (
+                    <CustomModal onClose={(e) => editUserToggle(e)}>
+                        <div className="ProfileUserEditTitle">Edit Profile Information</div>
+                        <div className="ProfileUserEditButtons">
+                            <label className="editCurrentUser">
+                                Username:
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Firstname:
+                                <input
+                                    type="text"
+                                    value={firstname}
+                                    onChange={(e) => setFirstname(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Lastname:
+                                <input
+                                    type="text"
+                                    value={lastname}
+                                    onChange={(e) => setLastname(e.target.value)}
+                                />
+                            </label>
+                            <label className="editCurrentUser">
+                                Email:
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </label>
+                            <button
+                                type="button"
+                                onClick={(e) => handleUserEdit(e)}
+                            >
+                                Confirm
+                            </button>
+                            <button type="button" onClick={editUserToggle}>
+                                cancel
+                            </button>
+                        </div>
+                    </CustomModal>
+                )}
+            </>
+        )
+    };
+
+/***********************************************************************************************************************************************/
+//*                             DELETE USER
+/***********************************************************************************************************************************************/
+    
+    //set modal state
+	const [showUserDelete, setShowUserDelete] = useState(false);
+	const [userToDelete, setUserToDelete] = useState(null);
+    
+	//send delete to thunk
+	const handleUserDeletion = (e, userId) => {
+		e.preventDefault();
+		e.stopPropagation();
+		dispatch(thunkDeleteUser(user.id));
+		navigate("/home");
+	};
+
+	//toggle for modal
+	const deleteUserToggle = (e, user) => {
+		e.preventDefault();
+		e.stopPropagation();
+        
+        if (user) {
+			setUserToDelete(user);
+		} else {
+			setUserToDelete(null);
+		}
+		setShowUserDelete(!showUserDelete);
+	};
+
+    const DeleteUserModal = () => {
+        return(
+            <>
+				{showUserDelete && (
+					<CustomModal onClose={deleteUserToggle}>
+						<div className="deleteMessage">
+							Delete your profile?
+						</div>
+						<div className="deleteButtons">
+							<button
+								type="button"
+								onClick={(e) => handleUserDeletion(e, userToDelete.id)}
+							>
+								Confirm
+							</button>
+							<button type="button" onClick={(e) => deleteUserToggle(e)}>
+								Cancel
+							</button>
+						</div>
+					</CustomModal>
+				)}
+			</>
+        )
+    };
 
 /***********************************************************************************************************************************************/
 //*                             EDIT EVENT
@@ -385,103 +540,6 @@ function ProfilePage(){
     };
 
 /***********************************************************************************************************************************************/
-//*                             EDIT USER
-/***********************************************************************************************************************************************/
-
-    //! STATE CHANGES CAUSE THE ENTIRE PAGE TO
-    const [showEditUser, setShowEditUser] = useState(false);
-    const [username, setUsername] = useState(user.username);
-    const [firstname, setFirstname] = useState(user.firstname);
-    const [lastname, setLastname] = useState(user.lastname);
-    const [email, setEmail] = useState(user.email);
-
-    //event handler for edit
-    const handleUserEdit = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        dispatch(editUser({
-            userId: user.id,
-            username: username,
-            firstname: firstname,
-            lastname: lastname,
-            email: email
-        }))
-        setShowEditUser(false);
-    }
-
-    //toggle for modal
-    const editUserToggle = (e, userToUpdate) => {
-        e.preventDefault();
-		e.stopPropagation();
-        console.log("FRONT USER TO UPDATE= ", userToUpdate)
-		if (userToUpdate) {
-            console.log("USER T U present TEST")
-			setEventToEdit(userToUpdate);
-			setUsername(userToUpdate.username)
-		} else {
-			setEventToEdit(null);
-			
-		}
-		setShowEditUser(!showEditUser);
-    };
-
-    const EditUserModal = () => {
-        return(
-            <>
-                {showEditUser && (
-                    <CustomModal onClose={(e) => editUserToggle(e)}>
-                        <div className="ProfileUserEditTitle">Edit Profile Information</div>
-                        <div className="ProfileUserEditButtons">
-                            <label className="editCurrentUser">
-                                Username:
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            </label>
-                            <label className="editCurrentUser">
-                                Firstname:
-                                <input
-                                    type="text"
-                                    value={firstname}
-                                    onChange={(e) => setFirstname(e.target.value)}
-                                />
-                            </label>
-                            <label className="editCurrentUser">
-                                Lastname:
-                                <input
-                                    type="text"
-                                    value={lastname}
-                                    onChange={(e) => setLastname(e.target.value)}
-                                />
-                            </label>
-                            <label className="editCurrentUser">
-                                Email:
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </label>
-                            <button
-                                type="button"
-                                onClick={(e) => handleUserEdit(e)}
-                            >
-                                Confirm
-                            </button>
-                            <button type="button" onClick={editUserToggle}>
-                                cancel
-                            </button>
-                        </div>
-                    </CustomModal>
-                )}
-            </>
-        )
-    };
-
-
-/***********************************************************************************************************************************************/
 //*                             HTML
 /***********************************************************************************************************************************************/
 
@@ -499,6 +557,7 @@ function ProfilePage(){
 
                 {/* USER MODALS */}
                 <EditUserModal />
+                <DeleteUserModal />
             </div>
             <div className="ProfileEvents">
                 <h2 className="ProfileEventsHeader">Events</h2>
