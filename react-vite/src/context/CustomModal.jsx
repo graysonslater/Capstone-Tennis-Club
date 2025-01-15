@@ -43,6 +43,6 @@ function CustomModal ({children, onClose=()=>{return}}){
     </div>
 </div>
     )
-};
+}
 
 export default CustomModal;

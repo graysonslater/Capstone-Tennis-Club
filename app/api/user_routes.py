@@ -53,3 +53,28 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({'message': 'User deleted successfully'})
+
+
+@user_routes.route('/userNameCheck/<string:user_name>', methods=['GET'])
+@login_required 
+def username_check(user_name): 
+    """
+    find a user by username, returns false if no user is found
+    """
+    
+    user = User.query.filter_by(username=user_name).first()
+    if not user: 
+        return jsonify({"exists": False}),200
+    return jsonify({"exists":user.to_dict()}),200
+
+
+@user_routes.route('/emailCheck/<string:input_email>', methods=['GET'])
+@login_required 
+def email_check(input_email): 
+    """
+    Find a user by email, return sfalse if no user is found
+    """
+    user = User.query.filter_by(email=input_email).first()
+    if not user: 
+        return jsonify({"exists": False}),200
+    return jsonify({"exists":user.to_dict()}),200

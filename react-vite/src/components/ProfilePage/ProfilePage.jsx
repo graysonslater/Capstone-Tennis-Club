@@ -5,11 +5,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserById, editUser, thunkDeleteUser } from "../../redux/session";
+import { getUserById, editUser, thunkDeleteUser, userNameCheck, emailCheck } from "../../redux/session";
 import {editEventThunk, deleteEvent} from "../../redux/events";
 import {editReservation, deleteReservation, reservationCheck} from "../../redux/reservations";
 import CustomModal from "../../context/CustomModal";
-
 import "./ProfilePage.css"
 
 /***********************************************************************************************************************************************/
@@ -32,7 +31,6 @@ function ProfilePage(){
 //*                             EDIT USER
 /***********************************************************************************************************************************************/
 
-    //! STATE CHANGES CAUSE THE ENTIRE PAGE TO RELOAD????
     //! MUST IMPLEMENT EMAIL AND USERNAME CHECK!!!!
     //! MUST VERIFY EMAIL IS IN CORRECT FORMAT
     const [showEditUser, setShowEditUser] = useState(false);
@@ -42,9 +40,38 @@ function ProfilePage(){
     const [email, setEmail] = useState();
 
     //event handler for edit
-    const handleUserEdit = (e) => {
+    const handleUserEdit =  async (e) => {
         e.preventDefault();
         e.stopPropagation();
+
+        setEditErrors({});
+        let validationErrors = {};
+        if (username.length < 1) {
+            validationErrors.username = "UserName must be at least 1 character";
+        }
+        if (firstname.length < 1) {
+            validationErrors.firstname = "first name must be at least 1 character";
+        }
+        if (lastname.length < 1) {
+            validationErrors.lastname = "last name must be at least 1 character";
+        }
+
+        //check username
+        const userNameTaken = await dispatch(userNameCheck(username));
+        if (userNameTaken.exists && userNameTaken.exists.username != user.username) {
+            validationErrors.username = `${username} is already taken!`;
+        }
+
+        //check email
+        const emailTaken = await dispatch(emailCheck(email));
+        if (emailTaken.exists && emailTaken.exists.email != user.email) {
+            validationErrors.email = `${email} is already taken!`;
+        }
+        if (Object.keys(validationErrors).length > 0) {
+            setEditErrors(validationErrors);
+            return;
+        }
+
         dispatch(editUser({
             userId: user.id,
             username: username,
@@ -64,6 +91,9 @@ function ProfilePage(){
             console.log("USER To Update present TEST= ", userToUpdate)
 			setEventToEdit(userToUpdate);
 			setUsername(userToUpdate.username)
+            setFirstname(userToUpdate.firstname)
+            setLastname(userToUpdate.lastname)
+            setEmail(userToUpdate.email)
 		} else {
 			setEventToEdit(null);
 			
@@ -85,6 +115,7 @@ function ProfilePage(){
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
+                                {errors.username && (<span className="profileErrors">{errors.username}</span>)}
                             </label>
                             <label className="editCurrentUser">
                                 Firstname:
@@ -93,6 +124,7 @@ function ProfilePage(){
                                     value={firstname}
                                     onChange={(e) => setFirstname(e.target.value)}
                                 />
+                                {errors.firstname && (<span className="profileErrors">{errors.firstname}</span>)}
                             </label>
                             <label className="editCurrentUser">
                                 Lastname:
@@ -101,6 +133,7 @@ function ProfilePage(){
                                     value={lastname}
                                     onChange={(e) => setLastname(e.target.value)}
                                 />
+                                {errors.lastname && (<span className="profileErrors">{errors.lastname}</span>)}
                             </label>
                             <label className="editCurrentUser">
                                 Email:
@@ -109,6 +142,7 @@ function ProfilePage(){
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
+                                {errors.email && (<span className="profileErrors">{errors.email}</span>)}
                             </label>
                             <button
                                 type="button"
@@ -556,7 +590,7 @@ function ProfilePage(){
                 <button className="EventDeleteUserBut" type="button" onClick={(e) => deleteUserToggle(e, user)}>Delete</button>
 
                 {/* USER MODALS */}
-                <EditUserModal />
+                <>{EditUserModal()}</>
                 <DeleteUserModal />
             </div>
             <div className="ProfileEvents">
