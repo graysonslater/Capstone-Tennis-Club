@@ -84,7 +84,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     if environment == "production":
-        op.execute(f"ALTER TABLE user SET SCHEMA {schema_name};")
+        op.execute(f"ALTER TABLE users SET SCHEMA {schema_name};")
         op.execute(f"ALTER TABLE events SET SCHEMA {schema_name};")
         op.execute(f"ALTER TABLE comments SET SCHEMA {schema_name};")
         op.execute(f"ALTER TABLE user_events SET SCHEMA {schema_name};")

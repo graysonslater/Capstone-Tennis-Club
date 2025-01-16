@@ -15,7 +15,7 @@ class Events(db.Model):
 
     #!FAILED ASSOSIATION ATTEMPT!!!!
     user_events = db.relationship('User_Events', back_populates='event')
-    users = db.relationship('User', secondary='user_events', back_populates='events')
+    
 
     def to_dict(self):
         return {

@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
 
     #!FAILED ASSOSIATION ATTEMPT!!!!
     user_events = db.relationship('User_Events', back_populates='user', cascade="all, delete-orphan")
-    events = db.relationship('Events', secondary='user_events', back_populates='users')
+    # events = db.relationship('Events', secondary='user_events', back_populates='users')
 
     reservations = db.relationship("Reservations", backref="users", cascade="all, delete-orphan")
     photos = db.relationship("Photos", backref="users", cascade="all, delete-orphan")
@@ -61,7 +61,14 @@ class User(db.Model, UserMixin):
                 'players': reservation.players,
                 'created_at': reservation.created_at.isoformat(), 
                 'updated_at': reservation.updated_at.isoformat() 
-            } for reservation in self.reservations]
+            } for reservation in self.reservations],
+            "comments": [{
+                'id': comment.id,
+                'photo_id': comment.photo_id, 
+                'comment': comment.comment,
+                'created_at': comment.created_at.isoformat(), 
+                'updated_at': comment.updated_at.isoformat() 
+            } for comment in self.comments]
 
         }
     
