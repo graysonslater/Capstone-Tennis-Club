@@ -40,7 +40,7 @@ COPY . .
 
 #run commands to create and populate DB
 # RUN flask db upgrade
-RUN flask seed all
+# RUN flask seed all
 
 #Specifies the command to run when the container starts, using Gunicorn to serve the Flask application
 CMD gunicorn app:app
