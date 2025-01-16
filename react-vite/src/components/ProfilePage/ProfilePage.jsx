@@ -21,7 +21,6 @@ function ProfilePage(){
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
-    // console.log("PROFILE FRONT user= ", user)
     
     useEffect(() => {
         dispatch(getUserById(user.id))
@@ -31,7 +30,6 @@ function ProfilePage(){
 //*                             EDIT USER
 /***********************************************************************************************************************************************/
 
-    //! MUST IMPLEMENT EMAIL AND USERNAME CHECK!!!!
     //! MUST VERIFY EMAIL IS IN CORRECT FORMAT
     const [showEditUser, setShowEditUser] = useState(false);
     const [username, setUsername] = useState();
@@ -86,9 +84,7 @@ function ProfilePage(){
     const editUserToggle = (e, userToUpdate) => {
         e.preventDefault();
 		e.stopPropagation();
-        console.log("FRONT USER TO UPDATE= ", userToUpdate)
 		if (userToUpdate) {
-            console.log("USER To Update present TEST= ", userToUpdate)
 			setEventToEdit(userToUpdate);
 			setUsername(userToUpdate.username)
             setFirstname(userToUpdate.firstname)

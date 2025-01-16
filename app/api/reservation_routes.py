@@ -4,7 +4,7 @@ from app.models import Reservations, db
 from datetime import datetime
 
 reservation_routes = Blueprint("reservations", __name__)
-
+print("CURRENT USER= ",current_user)
 
 @reservation_routes.route('/user_reservations', methods=["GET"])
 @login_required
@@ -24,6 +24,7 @@ def post_reservation():
     """
     Post a new reservation for the current user
     """
+    print("BACKEND=")
     data=request.json
     
     # convert date input so it can be stored in db
@@ -64,7 +65,6 @@ def edit_reservation(reservation_id):
     """
     
     data=request.json
-    print("BACKEND= ",data)
     # find the reservation to update
     reservation = Reservations.query.filter_by(id=reservation_id).first()
     if not reservation:

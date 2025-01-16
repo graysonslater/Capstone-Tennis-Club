@@ -33,6 +33,20 @@ export const usersReservations =() => async (dispatch) => {
     return response;
 };
 
+//Create a reservation
+export const createReservation = (info) => async () => {
+    console.log("RES request= ", info)
+    const request = await fetch("/api/reservations",{
+        method: "POST",
+        body: JSON.stringify({
+            "date": info.date,
+            "players": info.players 
+        })
+    });
+    const response = await request.json()
+    console.log("RES RESPONSE= ", response)
+    return response;
+}
 
 //edit a reservation
 export const editReservation = (info) => async (dispatch) => {

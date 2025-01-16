@@ -21,7 +21,6 @@ const usersEventsAO = (events) => ({
     payload: events
 });
 
-
 /***********************************************************************************************************************************************/
 //*                             THUNKS
 /***********************************************************************************************************************************************/
@@ -44,6 +43,21 @@ export const usersEvents = () => async (dispatch) => {
     return response;
 };
 
+//post a new event to a user
+export const registerForEvent = (info) => async (dispatch) => {
+    const request = await fetch(`/api/events/${info.eventId}`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "guests": info.guests
+        })
+    });
+    const response = await request.json();
+    dispatch(getUserById(info.userId))
+    return response;
+};
 
 //edit a users event
 export const editEventThunk = (info) => async (dispatch) => {
@@ -58,20 +72,30 @@ export const editEventThunk = (info) => async (dispatch) => {
     });
     const response = await request.json();
     dispatch(getUserById(info.userId))
-    dispatch(usersEventsAO(response));
     return response;
 };
-
 
 //Delete a users event (does not delete the event itself)
 export const deleteEvent = (info) => async (dispatch) => {
     const request = await fetch(`api/events/${info.eventId}`,{method:"DELETE"});
     const response = await request.json();
     dispatch(getUserById(info.userId))
-    dispatch(usersEventsAO(response));
     return response;
 };
 
+//Registration check, determines if user is already registered for an event
+export const registrationCheck = (eventId) => async (dispatch) => {
+    console.log("RESERVATION STORE=", eventId)
+    const request = await fetch(`api/events/regestration_check/${eventId}`,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const response = await request.json();
+    console.log("RES STORE RESPONSE= ", response)
+    return response;
+};
 
 /***********************************************************************************************************************************************/
 //*                             REDUCER

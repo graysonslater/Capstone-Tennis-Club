@@ -8,12 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import eventsReducer from "./events";
 import reservationsReducer from "./reservations";
-
+import photosReducer from "./photo";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   events: eventsReducer,
-  reservations: reservationsReducer
+  reservations: reservationsReducer,
+  photos:photosReducer
 });
 
 let enhancer;

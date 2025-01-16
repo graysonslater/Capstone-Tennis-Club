@@ -18,7 +18,6 @@ def get_all_events():
     return jsonify([event.to_dict() for event in events])
 
 
-#!RELATIONSHIP IS NOT SET UP CORRECTLY, THIS MUST BE CHANGED LATER!!!!!!
 @event_routes.route('/user_events', methods=['GET'])
 @login_required 
 def get_users_events(): 
@@ -93,3 +92,15 @@ def delete_event(url_event_id):
     db.session.delete(event)
     db.session.commit()
     return jsonify({"msg": "event removed successfully"}), 200
+
+
+@event_routes.route('/regestration_check/<int:url_event_id>', methods=['GET'])
+@login_required
+def regestration_check(url_event_id):
+    """
+    Determines if a user has already registered for an event, returns a boolean
+    """
+    event = User_Events.query.filter_by(user_id=current_user.id,event_id=url_event_id).first()
+    if not event:
+        return jsonify(False), 200
+    return jsonify(True), 200

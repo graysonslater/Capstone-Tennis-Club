@@ -4,7 +4,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { allEvents } from "../../redux/events";
+import { allEvents, registerForEvent, registrationCheck } from "../../redux/events";
 import { getUserById } from "../../redux/session";
 import CustomModal from "../../context/CustomModal";
 
@@ -18,10 +18,11 @@ function AllEventsPage(){
     const {events, user} = useSelector((state) => {
         return{ 
         events: state.events.allEvents,
-        user: state.session.user
+        user: state.session.user,
         }
     });
     console.log("EVENTS FRONT events=", events, "USER= ", user)
+
     useEffect(() => {
         dispatch(allEvents())
         dispatch(getUserById(user.id))
@@ -39,11 +40,12 @@ function AllEventsPage(){
     const handleRegistration = (e, eventId) => {
         e.preventDefault();
         e.stopPropagation();
-        dispatch(editEventThunk({
-            eventId: eventId,
+        dispatch(registerForEvent({
+            eventId: eventToReg.id,
             userId: user.id,
             guests: guests
         }))
+        dispatch(allEvents())
         setShowReg(false);
     }
 
@@ -54,7 +56,7 @@ function AllEventsPage(){
 
         if (event) {
             setEventToReg(event);
-            setGuests(event.guests);
+            setGuests(0);
         } else {
             setEventToReg(null);
             
@@ -96,6 +98,44 @@ function AllEventsPage(){
     };
 
 /***********************************************************************************************************************************************/
+//*                             REGISTRATION CHECK
+//                       disables/enables reserve button
+/***********************************************************************************************************************************************/
+
+
+    const [reservationStatuses, setReservationStatuses] = useState({});
+
+    useEffect(() => {
+        const checkReservations = async () => {
+            const statuses = {};
+            for (const event of events) {
+                const check = await dispatch(registrationCheck(event.id));
+                statuses[event.id] = !check;
+            }
+            setReservationStatuses(statuses);
+        };
+
+        checkReservations();
+    }, [events, dispatch]);
+    
+    const ReservationCheckModal = ({ eventId }) => {
+        return (
+            <>
+                {reservationStatuses[eventId] && (
+                    <button 
+                        className="AllEventsRegCheckBut" 
+                        type="button" 
+                        onClick={(e) => regEventToggle(e, events.find(event => event.id === eventId))}
+                    >
+                        Register
+                    </button>
+                )}
+            </>
+        );
+    };
+    
+
+/***********************************************************************************************************************************************/
 //*                             HTML
 /***********************************************************************************************************************************************/
 
@@ -104,13 +144,15 @@ function AllEventsPage(){
             <h2 className="AllEventsHeader">Upcoming Events</h2>
             <ul className="AllEventsList">
                 {events.map((event) => (
-                    <li key={event.event_id} className={`ProfileELI${event.event_id}`}>
+                    <li key={event.id} className={`ProfileELI${event.id}`}>
+                        <>{console.log("HTML", event)}</>
                         <p>{event.event_name}</p>
                         <p>Registration Price: {event.registration_price}</p>
-                        <p>Date: {event.event_date.replace('T', ' at ').slice(0, -3)}</p>
-                        <button className="AllEventsRegisterButton" type="button" onClick={(e) => editUserToggle(e, user)}>Register</button>
+                        <p>Date: {event.event_date.split(' ').slice(0, 4).join(' ')}</p>
+                        <ReservationCheckModal eventId={event.id} />
                     </li>
                 ))}
+                <EditEventModal />
             </ul>
         </div>
     )
