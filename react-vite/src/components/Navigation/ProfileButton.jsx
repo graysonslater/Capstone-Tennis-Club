@@ -8,6 +8,10 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import "./ProfileButton.css";
 
+/***********************************************************************************************************************************************/
+//*                             INIT/Function declaration
+/***********************************************************************************************************************************************/
+
 function ProfileButton() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,27 +19,28 @@ function ProfileButton() {
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
 
+
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
     // setShowMenu(!showMenu);
     navigate("/profile");
   };
 
+
   useEffect(() => {
     if (!showMenu) return;
-
     const closeMenu = (e) => {
       if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
-
     document.addEventListener("click", closeMenu);
-
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  
   const closeMenu = () => setShowMenu(false);
+
 
   const logout = (e) => {
     e.preventDefault();
@@ -43,6 +48,10 @@ function ProfileButton() {
     navigate("/");
   };
 
+/***********************************************************************************************************************************************/
+//*                             HTML
+/***********************************************************************************************************************************************/
+    
   return (
     <>
     <div className="navBarUserBtn">

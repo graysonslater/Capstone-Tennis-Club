@@ -6,7 +6,6 @@ from app.models import Photos, User, db
 photo_routes = Blueprint("photos", __name__)
 
 @photo_routes.route('/', methods=['GET'])
-@login_required 
 def get_all_photos(): 
     """
     Get all photos 

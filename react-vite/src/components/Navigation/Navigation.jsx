@@ -1,7 +1,15 @@
+/***********************************************************************************************************************************************/
+//*                             IMPORTS
+/***********************************************************************************************************************************************/
+
 import { NavLink, useNavigate } from "react-router-dom";
 // import ProfileButton from "./ProfileButton";
 import { useSelector } from "react-redux";
 import "./Navigation.css";
+
+/***********************************************************************************************************************************************/
+//*                             INIT/Function declaration
+/***********************************************************************************************************************************************/
 
 function Navigation() {
   const user = useSelector((store) => store.session.user);
@@ -17,12 +25,25 @@ function Navigation() {
     navigate("/signup");
   };
 
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(thunkLogout());
+    navigate("/");
+  };
+
+/***********************************************************************************************************************************************/
+//*                             HTML
+/***********************************************************************************************************************************************/
+    
   return (
     <div className="navBar">
       <div className="navSec">
         {user ? (
           <>
             <div className="navBarComponent">
+              <button className="navBarLogoutBtn" onClick={logout}>
+                Logout
+              </button>
               <NavLink className="navBarLink" to="/profile" >
                 Profile
               </NavLink>
