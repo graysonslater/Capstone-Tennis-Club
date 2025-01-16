@@ -1,40 +1,26 @@
 /***********************************************************************************************************************************************/
-//*                             ACTION OBJECTS
+//*                             IMPORTS
 /***********************************************************************************************************************************************/
 
-const ALL_PHOTOS = "photos/getAllPhotos"
-const allPhotosAO = (photos) => ({
-    type: ALL_PHOTOS,
-    payload: photos
-});
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getUserById } from "../../redux/session";
+import { allPhotos } from "../../redux/photo";
 
 /***********************************************************************************************************************************************/
-//*                             THUNKS
+//*                             INIT/Function declaration
 /***********************************************************************************************************************************************/
 
-//get all Photos
-export const allPhotos = () => async (dispatch) => {
-    console.log("PHOTO STORE TEST")
-    const request = await fetch("/api/photos");
-    const response = await request.json();
-    console.log("PHOT STORE RESPONSE= ",response)
-    dispatch(allPhotosAO(response));
-    return response;
-};
+function SinglePhotoPage(){
+    const dispatch = useDispatch();
 
 /***********************************************************************************************************************************************/
-//*                             REDUCER
+//*                             HTML
 /***********************************************************************************************************************************************/
+    
+    return(
+        <>NEW SINGLE Photo</>
+    )
+}
 
-const initialState = {photos: null, allPhotos: [], usersPhotos: []};
-
-function photosReducer(state = initialState, action){
-    switch (action.type) {
-        case ALL_PHOTOS:
-            return {...state, allPhotos: []}
-        default:
-            return state;
-    }
-};
-
-export default photosReducer;
+export default SinglePhotoPage;

@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   events: eventsReducer,
   reservations: reservationsReducer,
-  photos:photosReducer
+  photos: photosReducer
 });
 
 let enhancer;

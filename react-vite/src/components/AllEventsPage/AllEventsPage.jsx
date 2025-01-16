@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { allEvents, registerForEvent, registrationCheck } from "../../redux/events";
 import { getUserById } from "../../redux/session";
 import CustomModal from "../../context/CustomModal";
+import "./AllEventsPage.css"
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -145,7 +146,6 @@ function AllEventsPage(){
             <ul className="AllEventsList">
                 {events.map((event) => (
                     <li key={event.id} className={`ProfileELI${event.id}`}>
-                        <>{console.log("HTML", event)}</>
                         <p>{event.event_name}</p>
                         <p>Registration Price: {event.registration_price}</p>
                         <p>Date: {event.event_date.split(' ').slice(0, 4).join(' ')}</p>

@@ -6,7 +6,8 @@ import LandingPage from "../components/LandingPage/LandingPage";
 import ProfilePage from "../components/ProfilePage/ProfilePage";
 import AllEventsPage from "../components/AllEventsPage/AllEventsPage";
 import ReservationPage from "../components/ReservationPage/ReservationPage";
-import AllPhotos from "../components/AllPhotos/AllPhotos";
+import AllPhotosPage from "../components/AllPhotos/AllPhotos";
+import SinglePhotoPage from "../components/SinglePhoto/SinglePhoto";
 
 export const router = createBrowserRouter([
 	{
@@ -38,11 +39,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/photos",
-				element: <AllPhotos />,
+				element: <AllPhotosPage />,
 			},
 			{
 				path: "/photos/:photoId",
-				element: <>Individual photo page</>,
+				element: <SinglePhotoPage/>,
 			},
 			{
 				path: "/events",
