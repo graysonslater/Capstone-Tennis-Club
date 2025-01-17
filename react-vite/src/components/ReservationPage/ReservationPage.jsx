@@ -84,8 +84,8 @@ function ReservationPage(){
             players: newPlayers,
         }))
 
-        // alert("Reservation created successfully")
-        // navigate('/profile')
+        alert("Reservation created successfully")
+        navigate('/profile')
     }
 
 /***********************************************************************************************************************************************/

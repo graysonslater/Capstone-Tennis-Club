@@ -10,6 +10,7 @@ def get_all_photos():
     """
     Get all photos 
     """
+    print("PHOTO BACKEND")
     photos = Photos.query.all()
     if not photos: 
         return jsonify({'message': 'no photos found'}), 404 

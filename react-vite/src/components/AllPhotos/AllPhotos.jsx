@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/session";
 import { allPhotos } from "../../redux/photo";
+import { Link } from "react-router-dom/dist/umd/react-router-dom.development";
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -24,10 +25,79 @@ function AllPhotosPage(){
 
     useEffect(() => {
         console.log("USE EFFECT TEST")
-            dispatch(allPhotos())
-            dispatch(getUserById(user.id))
+        dispatch(allPhotos())
+        dispatch(getUserById(user.id))
         },[dispatch]);
     console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
+
+/***********************************************************************************************************************************************/
+//*                             POST AN IMAGE
+/***********************************************************************************************************************************************/
+
+    const [showCreate, setShowCreate] = useState(false);
+    const [eventToReg, setEventToReg] = useState();
+    const [guests, setGuests] = useState();
+
+    //event handler for edit
+    const handleRegistration = (e, eventId) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(registerForEvent({
+            eventId: eventToReg.id,
+            userId: user.id,
+            guests: guests
+        }))
+        dispatch(allEvents())
+        setShowCreate(false);
+    }
+
+    //toggle for modal
+    const regEventToggle = (e, event) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (event) {
+            setEventToReg(event);
+            setGuests(0);
+        } else {
+            setEventToReg(null);
+            
+        }
+        setShowCreate(!showCreate);
+    };
+
+    const EditEventModal = () => {
+        return(
+            <>
+                {showCreate && (
+                    <CustomModal onClose={(e) => regEventToggle(e)}>
+                        <div className="ProfileEditTitle">How Many guests are Coming with you to {eventToReg.event_name}?</div>
+                        <div className="ProfileEditButtons">
+                            <label className="editEventLabel">
+                                Guests:
+                                <input
+                                    type="number"
+                                    min='0'
+                                    max="10"
+                                    value={guests}
+                                    onChange={(e) => setGuests(e.target.value)}
+                                />
+                            </label>
+                            <button
+                                type="button"
+                                onClick={(e) => handleRegistration(e, eventToReg.event_id)}
+                            >
+                                Confirm
+                            </button>
+                            <button type="button" onClick={regEventToggle}>
+                                cancel
+                            </button>
+                        </div>
+                    </CustomModal>
+                )}
+            </>
+        )
+    };
 
 /***********************************************************************************************************************************************/
 //*                             HTML

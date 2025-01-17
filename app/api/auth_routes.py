@@ -35,6 +35,7 @@ def login():
         user = User.query.filter(User.email == form.data['email']).first()
         print("AUTH TEST VALIDATE= ", user)
         login_user(user)
+        print("Current user after login:", current_user)
         return user.to_dict()
     if not form.validate_on_submit():
         print("Form errors:", form.errors)

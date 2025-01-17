@@ -20,26 +20,39 @@ const onePhotoAO = (photo) => ({
 
 //get all Photos
 export const allPhotos = () => async (dispatch) => {
-    // console.log("PHOTO STORE TEST")
-    const request = await fetch("/api/photos");
+    const request = await fetch("/api/photos/");
     const response = await request.json();
-    // console.log("PHOTO STORE RESPONSE= ",response)
     dispatch(allPhotosAO(response));
     return response;
 };
 
 //get one photo
 export const onePhoto = (photoId) => async (dispatch) => {
-    console.log("ONE PHOTO STORE TEST")
     const request = await fetch(`/api/photos/${photoId}`);
     const response = await request.json();
-    console.log("ONE PHOTO STORE RESPONSE= ",response)
     dispatch(onePhotoAO(response));
     return response;
 };
 
 //delete a photo
 export const deleteEvent = (photoId) => async (dispatch) => {
+    const request = await fetch(`api/events/${photoId}`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "photoUrl": info.date,
+            "caption": info.players 
+        })
+    });
+    const response = await request.json();
+    dispatch(allPhotos());
+    return response;
+};
+
+//delete a photo //!NOT DONE NEEDS TO BE FIXED!!!!!!!!!
+export const deletePhoto = (photoId) => async (dispatch) => {
     const request = await fetch(`api/events/${photoId}`,{method:"DELETE"});
     const response = await request.json();
     dispatch(allPhotos());
@@ -55,12 +68,13 @@ const initialState = {photos: null, allPhotos: [], onePhoto: []};
 function photosReducer(state = initialState, action){
     switch (action.type) {
         case ALL_PHOTOS:
-            return {...state, allPhotos: action.object};
+            return {...state, allPhotos: action.payload};
         case ONE_PHOTO:
-            return {...state, onePhoto: action.object }
+            return {...state, onePhoto: action.payload }
         default:
             return state;
     }
+    
 };
 
 export default photosReducer;

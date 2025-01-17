@@ -12,11 +12,11 @@ def users_reservations():
     """
     Get all reservations for a user
     """
+    print("TEST")
     reservations = Reservations.query.filter_by(user_id= current_user.id).all()
     if not reservations:
         return jsonify({'message': 'no reservations found'}), 404
     return jsonify([reservation.to_dict() for reservation in reservations])
-
 
 @reservation_routes.route('/', methods=["POST"])
 @login_required
@@ -24,9 +24,9 @@ def post_reservation():
     """
     Post a new reservation for the current user
     """
-    print("BACKEND=")
-    data=request.json
     
+    data=request.json
+    print("BACKEND=")
     # convert date input so it can be stored in db
     date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
     

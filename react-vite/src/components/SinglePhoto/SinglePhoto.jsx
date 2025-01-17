@@ -47,7 +47,7 @@ function SinglePhotoPage(){
 	const handleDelete = async (e, photoId) => {
 		e.preventDefault();
 		e.stopPropagation();
-		await dispatch(deleteEvent(photoId));
+		await dispatch(deletePhoto(photoId));
         alert("Photo deleted successfully!");
 		navigate("/home");
 	};
