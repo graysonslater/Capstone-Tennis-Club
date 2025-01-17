@@ -433,7 +433,6 @@ function ProfilePage(){
         e.preventDefault();
         e.stopPropagation();
         setEditErrors({})
-        console.log("EDIT RES TEST")
         if (reservation) {
             setReservationToEdit(reservation);
             // setNewDate(reservation.date)

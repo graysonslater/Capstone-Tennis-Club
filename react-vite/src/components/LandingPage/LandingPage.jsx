@@ -3,7 +3,7 @@
 /***********************************************************************************************************************************************/
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { allEvents } from "../../redux/events";
 import SlideShow from "./SlideShow";
 
@@ -18,7 +18,7 @@ function LandingPage(){
     const events = useSelector((state) => {
         return state.events.allEvents;
     });
-    
+    console.log("LANDING PAGE= ", events)
     useEffect(()=> {
         dispatch(allEvents())
     },[dispatch]);
@@ -60,7 +60,7 @@ function LandingPage(){
                     <p>4 players: $10 per person</p>
                 </div>
             </div>
-            <div className="landingPageEvents">
+            {/* <div className="landingPageEvents">
                 <h2 className="landingPageEventsHeader">Upcoming Events</h2>
                 <ul className="landingPageEventsList">
                     {events.map((event) => (
@@ -70,7 +70,7 @@ function LandingPage(){
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> */}
             <div className="landingSocials">
                 <p>fake X</p>
                 <p>fake facebook</p>

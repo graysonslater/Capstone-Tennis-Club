@@ -4,7 +4,8 @@
 
 import { NavLink, useNavigate } from "react-router-dom";
 // import ProfileButton from "./ProfileButton";
-import { useSelector } from "react-redux";
+import { thunkLogout } from "../../redux/session";
+import { useSelector, useDispatch } from "react-redux";
 import "./Navigation.css";
 
 /***********************************************************************************************************************************************/
@@ -14,6 +15,7 @@ import "./Navigation.css";
 function Navigation() {
   const user = useSelector((store) => store.session.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const login = (e) => {
     e.preventDefault();
