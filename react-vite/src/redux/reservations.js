@@ -35,7 +35,6 @@ export const usersReservations =() => async (dispatch) => {
 
 //Create a reservation
 export const createReservation = (info) => async () => {
-    console.log("RES request= ", info)
     const request = await fetch("/api/reservations/",{
         method: "POST",
         headers: {
@@ -48,7 +47,6 @@ export const createReservation = (info) => async () => {
         credentials: 'include'
     });
     const response = await request.json()
-    console.log("RES RESPONSE= ", response)
     return response;
 }
 

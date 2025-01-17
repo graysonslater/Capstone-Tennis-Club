@@ -85,7 +85,6 @@ export const deleteEvent = (info) => async (dispatch) => {
 
 //Registration check, determines if user is already registered for an event
 export const registrationCheck = (eventId) => async (dispatch) => {
-    console.log("RESERVATION STORE=", eventId)
     const request = await fetch(`api/events/regestration_check/${eventId}`,{
         method: "GET",
         headers: {
@@ -93,7 +92,6 @@ export const registrationCheck = (eventId) => async (dispatch) => {
         }
     })
     const response = await request.json();
-    console.log("RES STORE RESPONSE= ", response)
     return response;
 };
 

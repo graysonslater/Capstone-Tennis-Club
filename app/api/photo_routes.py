@@ -10,7 +10,6 @@ def get_all_photos():
     """
     Get all photos 
     """
-    print("PHOTO BACKEND")
     photos = Photos.query.all()
     if not photos: 
         return jsonify({'message': 'no photos found'}), 404 
@@ -76,7 +75,7 @@ def post_photo():
 @login_required 
 def edit_photo(photo_id):
     """
-    Edit a photo a user has written
+    Edit a photo a user has posted
     """
     data = request.json
     photo = Photos.query.filter_by(id=photo_id).first()

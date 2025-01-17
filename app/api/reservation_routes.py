@@ -4,7 +4,6 @@ from app.models import Reservations, db
 from datetime import datetime
 
 reservation_routes = Blueprint("reservations", __name__)
-print("CURRENT USER= ",current_user)
 
 @reservation_routes.route('/user_reservations', methods=["GET"])
 @login_required
@@ -12,7 +11,6 @@ def users_reservations():
     """
     Get all reservations for a user
     """
-    print("TEST")
     reservations = Reservations.query.filter_by(user_id= current_user.id).all()
     if not reservations:
         return jsonify({'message': 'no reservations found'}), 404
@@ -26,7 +24,6 @@ def post_reservation():
     """
     
     data=request.json
-    print("BACKEND=")
     # convert date input so it can be stored in db
     date_obj = datetime.strptime(data['date'], '%Y-%m-%d %H:%M:%S')
     

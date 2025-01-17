@@ -24,22 +24,17 @@ def login():
     Logs a user in
     """
     data = request.json
-    print("AUTH TEST= ", data)
     form = LoginForm()
     # Get the csrf_token from the request cookie and put it into the
     # form manually to validate_on_submit can be used
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("AUTH TEST CSRF= ", form['csrf_token'].data)
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
-        print("AUTH TEST VALIDATE= ", user)
         login_user(user)
-        print("Current user after login:", current_user)
         return user.to_dict()
     if not form.validate_on_submit():
         print("Form errors:", form.errors)
-        print("AUTH TEST ERROR= ", form.errors)
     return form.errors, 401
 
 
@@ -79,5 +74,4 @@ def unauthorized():
     """
     Returns unauthorized JSON when flask-login authentication fails
     """
-    print("AUTH TEST= ", current_user)
     return {'errors': {'message': 'Unauthorized'}}, 401

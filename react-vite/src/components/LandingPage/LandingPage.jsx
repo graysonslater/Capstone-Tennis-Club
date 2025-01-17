@@ -18,7 +18,7 @@ function LandingPage(){
     const events = useSelector((state) => {
         return state.events.allEvents;
     });
-    console.log("LANDING PAGE= ", events)
+    // console.log("LANDING PAGE= ", events)
     useEffect(()=> {
         dispatch(allEvents())
     },[dispatch]);

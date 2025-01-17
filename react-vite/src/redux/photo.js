@@ -10,7 +10,7 @@ const allPhotosAO = (photos) => ({
 
 const ONE_PHOTO = "photos/getOnePhoto"
 const onePhotoAO = (photo) => ({
-    type: ALL_PHOTOS,
+    type: ONE_PHOTO,
     payload: photo
 });
 
@@ -34,26 +34,48 @@ export const onePhoto = (photoId) => async (dispatch) => {
     return response;
 };
 
-//delete a photo
-export const deleteEvent = (photoId) => async (dispatch) => {
-    const request = await fetch(`api/events/${photoId}`,{
+//Post a photo
+export const postPhoto = (info) => async (dispatch) => {
+    const request = await fetch(`/api/photos/`,{
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "photoUrl": info.date,
-            "caption": info.players 
+            "photoUrl": info.photoUrl,
+            "caption": info.caption 
         })
     });
     const response = await request.json();
-    dispatch(allPhotos());
+    dispatch(onePhoto(response.id));
+    return response;
+};
+
+//Edit a photo
+export const editPhoto = (info) => async (dispatch) => {
+    const request = await fetch(`/api/photos/${info.photoId}`,{
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "caption": info.caption 
+        })
+    });
+    const response = await request.json();
+    console.log("ONE PHOTO STORE=", response)
+    dispatch(onePhoto(response.id));
     return response;
 };
 
 //delete a photo //!NOT DONE NEEDS TO BE FIXED!!!!!!!!!
 export const deletePhoto = (photoId) => async (dispatch) => {
-    const request = await fetch(`api/events/${photoId}`,{method:"DELETE"});
+    const request = await fetch(`/api/photos/${photoId}`,{
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
     const response = await request.json();
     dispatch(allPhotos());
     return response;

@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/session";
-import { onePhoto } from "../../redux/photo";
+import { onePhoto, deletePhoto, editPhoto } from "../../redux/photo";
+import CustomModal from "../../context/CustomModal";
+import "./SinglePhoto.css"
 
 
 /***********************************************************************************************************************************************/
@@ -21,18 +23,17 @@ function SinglePhotoPage(){
     const {photoId} = useParams();
     const {photo, user} = useSelector((state) => {
         return{ 
-        photo: state.photos.onePhotos,
+        photo: state.photos.onePhoto,
         user: state.session.user,
         }
     });
     
 
     useEffect(() => {
-        console.log("USE EFFECT TEST")
             dispatch(onePhoto(photoId))
             dispatch(getUserById(user.id))
         },[dispatch]);
-    console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
+    // console.log("EVENTS FRONT PHOTO=", photo, "USER= ", user)
 
 /***********************************************************************************************************************************************/
 //*                             DELETE PHOTO
@@ -48,7 +49,6 @@ function SinglePhotoPage(){
 		e.preventDefault();
 		e.stopPropagation();
 		await dispatch(deletePhoto(photoId));
-        alert("Photo deleted successfully!");
 		navigate("/home");
 	};
 
@@ -69,7 +69,7 @@ function SinglePhotoPage(){
         return(
             <>
 				{showConfirmDelete && (
-					<CustomModal onClose={deletePhotoToggle(e, photo)}>
+					<CustomModal onClose={(e) => deletePhotoToggle(e, photo)}>
 						<div className="deleteMessage">
 							Delete Photo?
 						</div>
@@ -91,17 +91,84 @@ function SinglePhotoPage(){
     };
 
 /***********************************************************************************************************************************************/
+//*                             EDIT EVENT
+/***********************************************************************************************************************************************/
+    
+	const [showEdit, setShowEdit] = useState(false);
+	const [photoToEdit, setPhotoToEdit] = useState();
+	const [caption, setCaption] = useState();
+
+	//event handler for edit
+	const handleEdit = (e, photoId) => {
+		e.preventDefault();
+		e.stopPropagation();
+		dispatch(editPhoto({
+			photoId: photoId,
+			caption: caption
+		}))
+		setShowEdit(false);
+	}
+
+	//toggle for modal
+	const editPhotoToggle = (e, photo) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (photo) {
+			setPhotoToEdit(photo);
+			setCaption(photo.caption);
+		} else {
+			setPhotoToEdit(null);
+			
+		}
+		setShowEdit(!showEdit);
+	};
+
+	const EditPhotoModal = () => {
+		return(
+			<>
+				{showEdit && (
+					<CustomModal onClose={(e) => editPhotoToggle(e, photo)}>
+						<div className="ProfilePhotoTitle">Edit your caption</div>
+						<div className="ProfilePhotoButtons">
+							<label className="PhotoEventLabel">
+								<input
+									type="text"
+									value={caption}
+									onChange={(e) => setCaption(e.target.value)}
+								/>
+							</label>
+							<button
+								type="button"
+								onClick={(e) => handleEdit(e, photoToEdit.id)}
+							>
+								Confirm
+							</button>
+							<button type="button" onClick={editPhotoToggle}>
+								cancel
+							</button>
+						</div>
+					</CustomModal>
+				)}
+			</>
+		)
+	};
+
+/***********************************************************************************************************************************************/
 //*                             HTML
 /***********************************************************************************************************************************************/
     
     return(
-        <div className="OnePhotosBox">
+        <div className="OnePhotoBox">
             <img className="OnePhoto" src={photo.photo_url} alt="Club Photo"></img>
             <div className="PhotoCaption">{photo.caption}</div>
             {user.id === photo.user_id && (
-                <button className="EventDeleteUserBut" type="button" onClick={(e) => deletePhotoToggle(e, photo)}>Delete</button>
-            )}
-            <DeleteEventModal />
+				<div className="PhotoButtons">
+					<button className="DeletePhotoBut" type="button" onClick={(e) => deletePhotoToggle(e, photo)}>Delete</button>
+					<button className="editPhotoBut" type="button" onClick={(e) => editPhotoToggle(e, photo)}>Edit</button>
+				</div>				
+			)}
+			<DeleteEventModal />
+			{EditPhotoModal(photo)}
         </div>
     )
 }

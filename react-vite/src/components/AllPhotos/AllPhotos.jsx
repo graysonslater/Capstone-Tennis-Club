@@ -5,8 +5,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/session";
-import { allPhotos } from "../../redux/photo";
+import { allPhotos, postPhoto, onePhoto } from "../../redux/photo";
 import { Link } from "react-router-dom/dist/umd/react-router-dom.development";
+import CustomModal from "../../context/CustomModal";
+import { useNavigate } from "react-router-dom";
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -14,6 +16,7 @@ import { Link } from "react-router-dom/dist/umd/react-router-dom.development";
 
 function AllPhotosPage(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {photos, user} = useSelector((state) => {
         return{ 
@@ -21,75 +24,71 @@ function AllPhotosPage(){
         user: state.session.user,
         }
     });
-    
+    console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
 
     useEffect(() => {
-        console.log("USE EFFECT TEST")
         dispatch(allPhotos())
         dispatch(getUserById(user.id))
-        },[dispatch]);
-    console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
+        },[dispatch, onePhoto]);
+    
 
 /***********************************************************************************************************************************************/
 //*                             POST AN IMAGE
 /***********************************************************************************************************************************************/
 
     const [showCreate, setShowCreate] = useState(false);
-    const [eventToReg, setEventToReg] = useState();
-    const [guests, setGuests] = useState();
+    const [photoUrl, setPhotoUrl] = useState();
+    const [caption, setCaption] = useState();
 
     //event handler for edit
-    const handleRegistration = (e, eventId) => {
+    const handlePostPhoto = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        dispatch(registerForEvent({
-            eventId: eventToReg.id,
-            userId: user.id,
-            guests: guests
+        const newPhoto = await dispatch(postPhoto({
+            photoUrl: photoUrl,
+            caption: caption
         }))
-        dispatch(allEvents())
-        setShowCreate(false);
+        
+        navigate(`/photos/${newPhoto.id}`)
     }
 
     //toggle for modal
-    const regEventToggle = (e, event) => {
+    const postPhotoToggle = (e) => {
         e.preventDefault();
         e.stopPropagation();
-
-        if (event) {
-            setEventToReg(event);
-            setGuests(0);
-        } else {
-            setEventToReg(null);
-            
-        }
         setShowCreate(!showCreate);
     };
 
-    const EditEventModal = () => {
+    const PostPhototModal = () => {
         return(
             <>
                 {showCreate && (
-                    <CustomModal onClose={(e) => regEventToggle(e)}>
-                        <div className="ProfileEditTitle">How Many guests are Coming with you to {eventToReg.event_name}?</div>
-                        <div className="ProfileEditButtons">
-                            <label className="editEventLabel">
-                                Guests:
+                    <CustomModal onClose={(e) => postPhotoToggle(e)}>
+                        <div className="PostPhotoTitle">Submit your photo with a caption</div>
+                        <div className="PostPhotoButtons">
+                            <label className="postPhotoLabel">
+                                Photo URL:
                                 <input
-                                    type="number"
-                                    min='0'
-                                    max="10"
-                                    value={guests}
-                                    onChange={(e) => setGuests(e.target.value)}
+                                    type="text"
+                                    value={photoUrl}
+                                    onChange={(e) => setPhotoUrl(e.target.value)}
+                                />
+                            </label>
+                            <label className="postPhotoLabel">
+                                Caption:
+                                <input
+                                    type="text"
+                                    value={caption}
+                                    onChange={(e) => setCaption(e.target.value)}
                                 />
                             </label>
                             <button
                                 type="button"
-                                onClick={(e) => handleRegistration(e, eventToReg.event_id)}
+                                onClick={(e) => handlePostPhoto(e)}
                             >
-                                Confirm
+                                Submit
                             </button>
-                            <button type="button" onClick={regEventToggle}>
+                            <button type="button" onClick={postPhotoToggle}>
                                 cancel
                             </button>
                         </div>
@@ -106,6 +105,8 @@ function AllPhotosPage(){
     return(
         <div className="AllPhotosBox">
             <h2 className="AllPhotosHeader">Club Photos</h2>
+            <button className="PostButton" type="button" onClick={postPhotoToggle}>Post a photo!</button>
+            {PostPhototModal()}
             <ul className="AllPhotosList">
                 {photos.map((photo) => (
                     <li key={photo.id} className={`PhotoLI${photo.id}`}>

@@ -22,7 +22,7 @@ function AllEventsPage(){
         user: state.session.user,
         }
     });
-    console.log("EVENTS FRONT events=", events, "USER= ", user)
+    // console.log("EVENTS FRONT events=", events, "USER= ", user)
 
     useEffect(() => {
         dispatch(allEvents())
