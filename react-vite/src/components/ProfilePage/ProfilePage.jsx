@@ -21,7 +21,8 @@ function ProfilePage(){
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
-    
+    console.log("USER OBJECT= ",user)
+
     useEffect(() => {
         dispatch(getUserById(user.id))
     },[dispatch]);
@@ -234,7 +235,7 @@ function ProfilePage(){
 	const editEventToggle = (e, event) => {
 		e.preventDefault();
 		e.stopPropagation();
-
+        console.log("EDIT TOGGLE= ", event)
 		if (event) {
 			setEventToEdit(event);
 			setGuests(event.guests);
@@ -250,6 +251,7 @@ function ProfilePage(){
             <>
 				{showEdit && (
 					<CustomModal onClose={(e) => editEventToggle(e)}>
+                        <>{console.log("EDIT MODAL= ",eventToEdit)}</>
 						<div className="ProfileEditTitle">How Many guests are Coming with you to {eventToEdit.event_name}?</div>
 						<div className="ProfileEditButtons">
 							<label className="editEventLabel">
@@ -317,7 +319,8 @@ function ProfilePage(){
 				{showConfirmDelete && (
 					<CustomModal onClose={deleteEventToggle}>
 						<div className="deleteMessage">
-							Cancel your participation in {eventToDelete.event_name}?
+                            <>{console.log("MODAL = ",eventToDelete)}</>
+							Cancel your participation?
 						</div>
 						<div className="deleteButtons">
 							<button
@@ -597,7 +600,7 @@ function ProfilePage(){
                             <p>Registration Price: {event.registration_price}</p>
                             <p>Date: {event.event_date.replace('T', ' at ').slice(0, -3)}</p>
                             <p>Geusts: {event.guests}</p>
-                            <button className="ProfileEditEventButton" type="button" onClick={(e) => editEventToggle(e)}>Edit</button>
+                            <button className="ProfileEditEventButton" type="button" onClick={(e) => editEventToggle(e, event)}>Edit</button>
                             <button className="EventDeleteBut" type="button" onClick={(e) => deleteEventToggle(e, event)}>Delete</button>
                         </li>
                     ))}
