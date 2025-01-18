@@ -1,0 +1,133 @@
+/* General Styles */
+body {
+    font-family: 'Calibri', sans-serif;
+    background-color: #f4f4f4; /* Light background for contrast */
+    margin: 0;
+    padding: 20px;
+   
+}
+
+.ProfilePageBox {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff; /* White background for content */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Headers */
+h2 {
+    color: #333; /* Darker color for headers */
+}
+
+/* User Info Section */
+.ProfileUserInfo {
+    margin-bottom: 20px;
+}
+
+.ProfileInfoEvents,
+.ProfileInfoRes {
+    font-weight: bold;
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.ProfileEditUserButton,
+.EventDeleteUserBut,
+.ProfileEditEventButton,
+.EventDeleteBut,
+.ProfileEditReservationButton,
+.ReservationDeleteBut {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Events and Reservations Lists */
+.ProfileEventsList li,
+.ProfileReservationList li {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out content and buttons */
+    align-items: center; /* Center items vertically */
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #e9ecef; /* Light gray for list items */
+    border-radius: 5px;
+}
+
+.buttonContainer {
+    display: flex; /* Use flexbox for button alignment */
+    gap: 10px; /* Space between buttons */
+}
+
+/* Optional: Adjust button styles if needed */
+.ProfileEditEventButton,
+.EventDeleteBut,
+.ProfileEditReservationButton,
+.ReservationDeleteBut {
+    margin-left: 10px; /* Optional left margin for additional spacing */
+}
+
+
+/* Modal Styles */
+.CustomModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CustomModal > div {
+    background-color: #fff; /* White modal background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+select {
+    width: calc(100% - 20px); /* Full width minus padding */
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Light border color */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #007bff; /* Highlight border on focus */
+}
+
+/* Error Messages */
+.ReservationErrors,
+.profileErrors {
+   color: red; /* Red color for error messages */
+   font-size: small; /* Smaller font size for errors */
+   margin-top: -5px; /* Adjust spacing above error messages */
+}

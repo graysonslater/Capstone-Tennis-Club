@@ -1,0 +1,87 @@
+/* Outer container for centering content */
+.outerContainer {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    min-height: 100vh; /* Full height of viewport */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* CreateREsBox styles */
+.CreateREsBox {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 30px; /* Padding around the box */
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    width: 300px; /* Fixed width for the box */
+    text-align: center; /* Center text within the box */
+}
+
+.CreateResTitle {
+    color: #2F574E; /* Title color */
+    margin-bottom: 20px; /* Space below title */
+}
+
+.CreateResButtons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    width: 100%; /* Full width for buttons */
+}
+
+.CreateResPlayers,
+.CreateResDate,
+.CreateResTime {
+    margin-bottom: 15px; /* Space between labels */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.CreateResPlayers input,
+.CreateResDate input,
+.CreateResDate select {
+    width: 100px; /* Set a fixed width for inputs and select */
+    padding: 5px; /* Padding inside input/select */
+    border-radius: 5px; /* Rounded corners for inputs/selects */
+    border: 1px solid #ccc; /* Light border for inputs/selects */
+    margin-left: 10px; /* Space between label and input/select */
+}
+
+.CreateResPlayers input:focus,
+.CreateResDate input:focus,
+.CreateResDate select:focus {
+    border-color: #891C7C; /* Change border color on focus */
+}
+
+/* Error message styling */
+.ReservationErrors {
+    color: red; /* Red color for error messages */
+    font-size: 0.9em; /* Slightly smaller font size for errors */
+}
+
+/* Button styling for confirm button */
+button[type="button"] {
+    background-color: #2F574E; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners for button */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for confirm button */
+button[type="button"]:hover {
+    background-color: #891C7C; /* Change button color on hover */
+}
+
+/* Footer styles to stick at bottom of page if needed*/
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

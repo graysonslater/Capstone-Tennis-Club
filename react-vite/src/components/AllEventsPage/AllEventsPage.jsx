@@ -40,7 +40,7 @@ function AllEventsPage(){
     const [guests, setGuests] = useState();
 
     //event handler for edit
-    const handleRegistration = (e, eventId) => {
+    const handleRegistration = (e) => {
         e.preventDefault();
         e.stopPropagation();
         dispatch(registerForEvent({
@@ -72,9 +72,9 @@ function AllEventsPage(){
             <>
                 {showRegistration && (
                     <CustomModal onClose={(e) => regEventToggle(e)}>
-                        <div className="ProfileEditTitle">How Many guests are Coming with you to {eventToReg.event_name}?</div>
-                        <div className="ProfileEditButtons">
-                            <label className="editEventLabel">
+                        <div className="EventAddTitle">How Many guests are Coming with you to {eventToReg.event_name}?</div>
+                        <div className="AddEventButtons">
+                            <label className="EventLabel">
                                 Guests:
                                 <input
                                     type="number"
@@ -123,7 +123,7 @@ function AllEventsPage(){
     
     const ReservationCheckModal = ({ eventId }) => {
         return (
-            <>
+            <div className="reservationCheckModal">
                 {reservationStatuses[eventId] && (
                     <button 
                         className="AllEventsRegCheckBut" 
@@ -133,7 +133,7 @@ function AllEventsPage(){
                         Register
                     </button>
                 )}
-            </>
+            </div>
         );
     };
     
@@ -148,7 +148,7 @@ function AllEventsPage(){
             <ul className="AllEventsList">
                 {events.map((event) => (
                     <li key={event.id} className={`ProfileELI${event.id}`}>
-                        <p>{event.event_name}</p>
+                        <p >{event.event_name}</p>
                         <p>Registration Price: {event.registration_price}</p>
                         <p>Date: {event.event_date.split(' ').slice(0, 4).join(' ')}</p>
                         <ReservationCheckModal eventId={event.id} />
@@ -158,7 +158,6 @@ function AllEventsPage(){
             </ul>
         </div>
     )
-
 }
 
 export default AllEventsPage;

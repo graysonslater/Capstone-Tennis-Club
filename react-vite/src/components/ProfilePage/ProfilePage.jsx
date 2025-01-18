@@ -21,7 +21,6 @@ function ProfilePage(){
 
     //"user" contains all events and reservations for the current user
     const user = useSelector((state) => {return state.session.user});
-    console.log("USER OBJECT= ",user)
 
     useEffect(() => {
         dispatch(getUserById(user.id))
@@ -100,7 +99,7 @@ function ProfilePage(){
 
     const EditUserModal = () => {
         return(
-            <>
+            <div className="editUserMain">
                 {showEditUser && (
                     <CustomModal onClose={(e) => editUserToggle(e)}>
                         <div className="ProfileUserEditTitle">Edit Profile Information</div>
@@ -153,7 +152,7 @@ function ProfilePage(){
                         </div>
                     </CustomModal>
                 )}
-            </>
+            </div>
         )
     };
 
@@ -166,7 +165,7 @@ function ProfilePage(){
 	const [userToDelete, setUserToDelete] = useState(null);
     
 	//send delete to thunk
-	const handleUserDeletion = (e, userId) => {
+	const handleUserDeletion = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 		dispatch(thunkDeleteUser(user.id));
@@ -188,7 +187,7 @@ function ProfilePage(){
 
     const DeleteUserModal = () => {
         return(
-            <>
+            <div className="DeleteUserMain">
 				{showUserDelete && (
 					<CustomModal onClose={deleteUserToggle}>
 						<div className="deleteMessage">
@@ -207,7 +206,7 @@ function ProfilePage(){
 						</div>
 					</CustomModal>
 				)}
-			</>
+			</div>
         )
     };
 
@@ -235,7 +234,6 @@ function ProfilePage(){
 	const editEventToggle = (e, event) => {
 		e.preventDefault();
 		e.stopPropagation();
-        console.log("EDIT TOGGLE= ", event)
 		if (event) {
 			setEventToEdit(event);
 			setGuests(event.guests);
@@ -248,10 +246,9 @@ function ProfilePage(){
 
     const EditEventModal = () => {
         return(
-            <>
+            <div className="EditmodalMain">
 				{showEdit && (
 					<CustomModal onClose={(e) => editEventToggle(e)}>
-                        <>{console.log("EDIT MODAL= ",eventToEdit)}</>
 						<div className="ProfileEditTitle">How Many guests are Coming with you to {eventToEdit.event_name}?</div>
 						<div className="ProfileEditButtons">
 							<label className="editEventLabel">
@@ -276,7 +273,7 @@ function ProfilePage(){
 						</div>
 					</CustomModal>
 				)}
-			</>
+			</div>
         )
     };
 
@@ -315,11 +312,10 @@ function ProfilePage(){
 
     const DeleteEventModal = () => {
         return(
-            <>
+            <div className="DeletemodalMain">
 				{showConfirmDelete && (
 					<CustomModal onClose={deleteEventToggle}>
 						<div className="deleteMessage">
-                            <>{console.log("MODAL = ",eventToDelete)}</>
 							Cancel your participation?
 						</div>
 						<div className="deleteButtons">
@@ -335,7 +331,7 @@ function ProfilePage(){
 						</div>
 					</CustomModal>
 				)}
-			</>
+			</div>
         )
     };
 
@@ -450,7 +446,7 @@ function ProfilePage(){
     //html for modal
     const EditReservationModal = () => {
         return(
-            <>
+            <div className="EditResMain">
                 {showReservation && (
                     <CustomModal onClose={(e) => reservationEventToggle(e)}>
                         <div className="ProfileEditResTitle">Update your reservation for {reservationToEdit.date.replace('T', ' at ').slice(0, -3)}?</div>
@@ -510,7 +506,7 @@ function ProfilePage(){
                         </div>
                     </CustomModal>
                 )}
-            </>
+            </div>
         )
     };
 
@@ -548,7 +544,7 @@ function ProfilePage(){
 
     const DeleteReservationModal = () => {
         return(
-            <>
+            <div className="deletemodalMain">
 				{showResDelete && (
 					<CustomModal onClose={deleteReservationToggle}>
 						<div className="deleteRESMessage">
@@ -567,7 +563,7 @@ function ProfilePage(){
 						</div>
 					</CustomModal>
 				)}
-			</>
+			</div>
         )
     };
 
@@ -632,6 +628,6 @@ function ProfilePage(){
             </div>
         </div>
     )
-};
+}
 
 export default ProfilePage;

@@ -1,5 +1,26 @@
 .foot {
-    border: 2px solid black; /* Black border around the entire nav bar */
-    background-color: #f8f9fa; /* Light background color for contrast */
-    padding: 10px; /* Padding inside the nav bar */
-}
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #F4F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 3px solid #891C7C;
+  }
+  
+  .foot p,
+  .foot a {
+    margin: 5px 0;
+    color: #2F574E; /* Green color from header */
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .foot p:hover,
+  .foot a:hover {
+    color: #891C7C; /* Purple color from header */
+    text-decoration: underline;
+  }
+  

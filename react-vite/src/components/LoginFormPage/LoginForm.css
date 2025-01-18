@@ -1,109 +1,79 @@
 .outterLogin {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    /* border: 2px solid black; */
-    background-color: rgb(0, 0, 0);
-    height: 90vh;
-    justify-content: space-around;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .bubbleSec {
-    /* border: 2px solid black; */
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(30, 1fr);
-    width: fit-content;
-  }
-  
-  .bubbleSec span {
-    text-align: center;
-    align-content: center;
-    color: rgb(255, 215, 0);
-    position: relative;
-    width: 30px;
-    height: 30px;
-    margin: 0 4px;
-    border-radius: 50%;
-    background-color: rgb(20, 204, 0);
-    box-shadow: 0 0 0 5px rgba(20, 204, 0, 0.267), 0 0 40px rgb(20, 204, 0);
-    animation: animate 15s linear infinite;
-    animation-duration: calc(200s / var(--i));
-    animation-name: bubble;
-  }
-  
-  @keyframes bubble {
-    0% {
-      transform: translateY(100vh) scale(0);
-    }
-    100% {
-      transform: translateY(-10vh) scale(2);
-    }
-  }
-  
-  .loginSec {
-    /* border: 2px solid black; */
-    color: rgb(255, 255, 255);
-    padding: 10px;
-    text-align: center;
-    align-content: center;
-    position: relative;
-  }
-  
-  .loginSec div {
-    margin: 20px;
-  }
-  
-  .loginInput {
-    padding: 10px;
-    width: 250px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-  }
-  
-  .loginButton {
-    margin-top: 20px;
-    width: 270px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .loginButton:hover {
-    width: 280px;
-    height: 40px;
-  }
-  
-  .loginDemo {
-    margin: 20px;
-    width: 270px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .loginDemo:hover {
-    width: 280px;
-    height: 40px;
-  }
-  
-  .loginLink {
-    text-decoration: none;
-    color: rgb(255, 215, 0);
-  }
-  
-  .loginLink:hover {
-    color: rgb(255, 0, 0);
-  }
-  
-  @media screen and (max-width: 700px) {
-      .bubbleSec {
-          display: none;
-      }
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full height of the viewport */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.loginSec {
+  background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 300px; /* Fixed width for the login box */
+  text-align: center; /* Center text within the login section */
+}
+
+.loginSec h1 {
+  margin-bottom: 20px;
+  color: #2F574E; /* Header color (adjust as needed) */
+}
+
+.loginInput {
+  width: 100%; /* Full width for inputs */
+  padding: 10px;
+  margin-bottom: 15px; /* Space between inputs */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size for inputs */
+}
+
+.loginInput:focus {
+  border-color: #891C7C; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+.loginButton {
+  background-color: #2F574E; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.loginButton:hover {
+  background-color: #891C7C; /* Change button color on hover */
+}
+
+.loginDemo {
+  background-color: transparent; /* Transparent background for demo button */
+  color: #2F574E; /* Demo button text color */
+  border: none;
+  cursor: pointer;
+  margin-top: 10px; /* Space above demo button */
+}
+
+.loginDemo:hover {
+  text-decoration: underline; /* Underline on hover for demo button */
+  color: #891C7C
+}
+
+.loginLink {
+  color: #2F574E; /* Link color */
+}
+
+.loginLink:hover {
+  text-decoration: underline; /* Underline on hover for links */
+  color: #891C7C
+}
+
+/* Error message styling */
+p.error {
+  color: red; /* Error message color */
+}
+
   

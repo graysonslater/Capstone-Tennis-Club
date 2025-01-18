@@ -84,7 +84,7 @@ export const deleteEvent = (info) => async (dispatch) => {
 };
 
 //Registration check, determines if user is already registered for an event
-export const registrationCheck = (eventId) => async (dispatch) => {
+export const registrationCheck = (eventId) => async () => {
     const request = await fetch(`api/events/regestration_check/${eventId}`,{
         method: "GET",
         headers: {
@@ -110,6 +110,6 @@ function eventsReducer(state = initialState, action){
         default:
             return state;
     }
-};
+}
 
 export default eventsReducer;

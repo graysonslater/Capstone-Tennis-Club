@@ -58,13 +58,6 @@ function SignupFormPage() {
     <>
       <div className="outterSignup">
         <div className="innerSignup">
-          <div className="glowSec">
-            <h2 className="glowH2">Bigger</h2>
-            <h2 className="glowH2">Investments</h2>
-            <h2 className="glowH2">Towards</h2>
-            <h2 className="glowH2">Your</h2>
-            <h2 className="glowH2">Future</h2>
-          </div>
           <div className="signupSec">
             <h1>Sign Up</h1>
             {errors.server && <p>{errors.server}</p>}

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createReservation, reservationCheck } from "../../redux/reservations";
+import "./ReservationPage.css"
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -93,61 +94,63 @@ function ReservationPage(){
 /***********************************************************************************************************************************************/
 
     return(
-        <div className="CreateREsBox">
-            <h2 className="CreateResTitle">Researve a court time!</h2>
-            <div className="CreateResButtons">
-                <label className="CreateResPlayers">
-                    Players:
-                    <input
-                        type="number"
-                        min='1'
-                        max="4"
-                        value={newPlayers}
-                        onChange={(e) => setNewPlayers(e.target.value)}
-                    />
-                    {errors.players && (
-                        <span className="ReservationErrors">{errors.players}</span>
-                    )}
-                </label>
-                <label className="CreateResDate">
-                    Date:
-                    <input
-                        type="date"
-                        min={minDate}
-                        max={maxDate}
-                        value={newDate}
-                        onChange={(e) => setNewDate(e.target.value)}
-                    />
-                    {errors.date && (
-                        <span className="ReservationErrors">{errors.date}</span>
-                    )}
-                </label>
-                <label className="CreateResDate">
-                    Time:
-                    <div>
+        <div className="outerContainer">
+            <div className="CreateREsBox">
+                <h2 className="CreateResTitle">Researve a court time!</h2>
+                <div className="CreateResButtons">
+                    <label className="CreateResPlayers">
+                        Players:
+                        <input
+                            type="number"
+                            min='1'
+                            max="4"
+                            value={newPlayers}
+                            onChange={(e) => setNewPlayers(e.target.value)}
+                        />
+                        {errors.players && (
+                            <span className="ReservationErrors">{errors.players}</span>
+                        )}
+                    </label>
+                    <label className="CreateResDate">
+                        Date:
+                        <input
+                            type="date"
+                            min={minDate}
+                            max={maxDate}
+                            value={newDate}
+                            onChange={(e) => setNewDate(e.target.value)}
+                        />
+                        {errors.date && (
+                            <span className="ReservationErrors">{errors.date}</span>
+                        )}
+                    </label>
+                    <label className="CreateResDate">
                         Time:
-                        <select value={newTime} onChange={(e) => setNewTime(e.target.value)} required>
-                            <option value="" disabled>Select a time</option>
-                            {availableTimes.map((time) => (
-                                <option key={time} value={time}>
-                                    {time}
-                                </option>
-                            ))}
-                        </select>
-                    </div> 
-                    {errors.time && (
-                        <span className="ReservationErrors">{errors.time}</span>
-                    )}                        
-                </label>
-                <button
-                    type="button"
-                    onClick={(e) => handleCreateReservation(e)}
-                >
-                    Confirm
-                </button>
-                {errors.check && (
-                    <span className="ReservationErrors">{errors.check}</span>
-                )}
+                        <div>
+                            Time:
+                            <select value={newTime} onChange={(e) => setNewTime(e.target.value)} required>
+                                <option value="" disabled>Select a time</option>
+                                {availableTimes.map((time) => (
+                                    <option key={time} value={time}>
+                                        {time}
+                                    </option>
+                                ))}
+                            </select>
+                        </div> 
+                        {errors.time && (
+                            <span className="ReservationErrors">{errors.time}</span>
+                        )}                        
+                    </label>
+                    <button
+                        type="button"
+                        onClick={(e) => handleCreateReservation(e)}
+                    >
+                        Confirm
+                    </button>
+                    {errors.check && (
+                        <span className="ReservationErrors">{errors.check}</span>
+                    )}
+                </div>
             </div>
         </div>
     )

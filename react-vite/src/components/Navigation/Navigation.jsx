@@ -3,7 +3,6 @@
 /***********************************************************************************************************************************************/
 
 import { NavLink, useNavigate } from "react-router-dom";
-// import ProfileButton from "./ProfileButton";
 import { thunkLogout } from "../../redux/session";
 import { useSelector, useDispatch } from "react-redux";
 import "./Navigation.css";
@@ -39,10 +38,16 @@ function Navigation() {
     
   return (
     <div className="navBar">
+      <a href="/" className="logo-link">
+        <div className="logo"></div>
+      </a>
       <div className="navSec">
         {user ? (
           <>
             <div className="navBarComponent">
+              <NavLink className="navBarLink" to="/home" >
+                Home
+              </NavLink>
               <button className="navBarLogoutBtn" onClick={logout}>
                 Logout
               </button>
@@ -64,15 +69,15 @@ function Navigation() {
         ) : (
           <>
             <div className="navBarLoginSignupBtn">
-              <NavLink className="navBarLink" to="/events">
-                Events
-              </NavLink>
               <button className="navBarLoginBtn" onClick={login}>
                 Login
               </button>
               <button className="navBarSignupBtn" onClick={signup}>
                 SignUp
               </button>
+              <NavLink className="navBarLink" to="/events">
+                Events
+              </NavLink>
             </div>
           </>
         )}

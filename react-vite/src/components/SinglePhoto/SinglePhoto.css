@@ -1,0 +1,106 @@
+.OnePhotoBox {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 20px; /* Padding around the box */
+    margin-bottom: 20px; /* Space below the box */
+    margin-top: 100px;
+}
+
+.OnePhoto {
+    width: 900px; /* Set a fixed width for the image to make it three times larger */
+    height: 600px; /* Set a fixed height to maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners for image */
+    object-fit: contain; /* Ensure the full image is displayed without cropping */
+}
+
+.PhotoContainer {
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding around text */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    text-align: center; /* Center text within the container */
+}
+
+/* New style for the caption with backdrop filter */
+.PhotoCaption {
+    color: #2F574E; /* Caption color */
+    margin-top: 10px; /* Space above caption */
+    margin-bottom: 20px; /* Space below caption to create space before buttons */
+    font-size: 1em; /* Font size for caption (adjust as needed) */
+    position: relative; /* Position relative for backdrop effect */
+    z-index: 1; /* Ensure text is above the backdrop filter */
+    padding: 10px;
+    border-color: white;
+    margin-bottom: 300px;
+}
+
+/* Pseudo-element for blurred background effect */
+.PhotoCaption::before {
+    content: ''; /* Empty content for pseudo-element */
+    position: absolute; /* Position absolute to cover the caption area */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    border-radius: 10px; /* Match border radius of the container */
+    backdrop-filter: blur(10px); /* Apply blur effect to the background */
+    z-index: -1; /* Send behind the text */
+    
+}
+
+.PhotoButtons {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin-top: 10px; /* Space above buttons */
+}
+
+.DeletePhotoBut,
+.editPhotoBut {
+    background-color: #2F574E; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding for buttons */
+    border-radius: 5px; /* Rounded corners for buttons */
+    border: none; /* No border for buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    margin-right: 10px; /* Space between buttons */
+}
+
+/* Hover effect for buttons */
+.DeletePhotoBut:hover,
+.editPhotoBut:hover {
+    background-color: #891C7C; /* Change button color on hover */
+}
+
+/* Modal Styles for Delete and Edit Modals */
+.ProfilePhotoTitle {
+    font-size: 1.5em; /* Title size in modal */
+    margin-bottom: 15px; /* Space below title */
+}
+
+.ProfilePhotoButtons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically in modal */
+}
+
+.PhotoEventLabel {
+    margin-bottom: 10px; /* Space below label in modal */
+}
+
+.PhotoEventLabel input {
+    width: calc(100% - 20px); /* Full width for input minus padding */
+    padding: 5px; /* Smaller padding for a more compact look */
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Light border for input */
+}
+
+.PhotoEventLabel input:focus {
+    border-color: #891C7C; /* Change border color on focus in modal inputs */
+}
+
+/* Error message styling if needed (you can customize this) */
+p.error {
+   color: red; /* Error message color */
+}

@@ -1,0 +1,86 @@
+.landingPageLayout {
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+.landingHeader {
+    text-align: center;
+    font-size: 2em;
+    padding: 10px;
+}
+
+.landingSlideShow {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.landingText,
+.hoursBox,
+.ratesBox{
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.landingText {
+    text-align: center;
+    font-size: 1.2em; /* Increased from default size */
+    line-height: 1.5; /* Added for better readability */
+}
+
+.InfoBoxes {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.hoursBox, 
+.ratesBox {
+    flex: 1;
+    text-align: center;
+}
+
+.hoursHeader, 
+.ratesBox h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.hoursTimes p, 
+.ratesPrices p {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.landingSocials {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between icons */
+}
+
+.landingSocials img {
+    width: 40px; /* Set a reasonable size for the icons */
+    height: auto; /* Maintain aspect ratio */
+    border: none; /* Remove any border */
+    background: none; /* Remove any background */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: transform 0.3s ease; /* Optional: Add a hover effect */
+}
+
+.landingSocials .Insta {
+    width: 50px; /* Increase the size of the Instagram icon */
+}
+
+.landingSocials img:hover {
+    transform: scale(1.1); /* Optional: Slightly enlarge the icon on hover */
+}

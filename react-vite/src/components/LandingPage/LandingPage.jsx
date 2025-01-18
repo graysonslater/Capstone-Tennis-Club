@@ -2,11 +2,14 @@
 //*                             IMPORTS
 /***********************************************************************************************************************************************/
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useEffect } from "react";
 import { allEvents } from "../../redux/events";
+import "./LandingPage.css"
 import SlideShow from "./SlideShow";
-
+import Instagram from './LandingPagePhotos/insta.png';
+import FaceBook from './LandingPagePhotos/faceBook.png';
+import X from './LandingPagePhotos/x.png';
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -15,13 +18,19 @@ import SlideShow from "./SlideShow";
 function LandingPage(){
     const dispatch = useDispatch();
 
-    const events = useSelector((state) => {
-        return state.events.allEvents;
-    });
+    // const events = useSelector((state) => {
+    //     return state.events.allEvents;
+    // });
     // console.log("LANDING PAGE= ", events)
     useEffect(()=> {
         dispatch(allEvents())
     },[dispatch]);
+
+    const handleRegistration = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        alert("Feature Coming Soon!")
+    }
 
 /***********************************************************************************************************************************************/
 //*                             HTML
@@ -35,10 +44,11 @@ function LandingPage(){
                 <SlideShow />
             </div>
             <div className="landingText">
-                    Experiance the thrill of tennis at capstone tennis club, where passion meets excellence.
+                    Experience the thrill of tennis at Capstone Tennis Club, where passion meets excellence.
                     Join our vibrant community of players and elevate your game with top-notch facilities 
-                    and challanging events!
+                    and challenging events!
             </div>
+            <div className="InfoBoxes">
             <div className="hoursBox">
                 <h2 className="hoursHeader">Hours</h2>
                 <div className="hoursTimes">
@@ -60,22 +70,15 @@ function LandingPage(){
                     <p>4 players: $10 per person</p>
                 </div>
             </div>
-            {/* <div className="landingPageEvents">
-                <h2 className="landingPageEventsHeader">Upcoming Events</h2>
-                <ul className="landingPageEventsList">
-                    {events.map((event) => (
-                        <li key={event.id} className={`LPE${event.id}`}>
-                            <p>{event.event_name}</p>
-                            <p>Registration Price: {event.registration_price}, Date: {event.event_date}</p>
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
-            <div className="landingSocials">
-                <p>fake X</p>
-                <p>fake facebook</p>
-                <p>fake instagram</p>
             </div>
+            <div className="landingSocials">
+                <img src={FaceBook} alt="Facebook" className="FaceBook" onClick={(e) => handleRegistration(e)} />
+                <div className="instaDiv">
+                    <img src={Instagram} alt="Instagram" className="Insta"  onClick={(e) => handleRegistration(e)}/>
+                </div>
+                <img src={X} alt="X" className="X"  onClick={(e) => handleRegistration(e)}/>
+            </div>
+        
         </div>
     )
 }

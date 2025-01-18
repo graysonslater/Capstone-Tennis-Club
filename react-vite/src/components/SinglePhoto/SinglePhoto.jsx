@@ -160,13 +160,13 @@ function SinglePhotoPage(){
     return(
         <div className="OnePhotoBox">
             <img className="OnePhoto" src={photo.photo_url} alt="Club Photo"></img>
-            <div className="PhotoCaption">{photo.caption}</div>
             {user.id === photo.user_id && (
 				<div className="PhotoButtons">
 					<button className="DeletePhotoBut" type="button" onClick={(e) => deletePhotoToggle(e, photo)}>Delete</button>
 					<button className="editPhotoBut" type="button" onClick={(e) => editPhotoToggle(e, photo)}>Edit</button>
 				</div>				
 			)}
+			<div className="PhotoCaption">{photo.caption}</div>
 			<DeleteEventModal />
 			{EditPhotoModal(photo)}
         </div>

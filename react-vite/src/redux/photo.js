@@ -63,7 +63,6 @@ export const editPhoto = (info) => async (dispatch) => {
         })
     });
     const response = await request.json();
-    console.log("ONE PHOTO STORE=", response)
     dispatch(onePhoto(response.id));
     return response;
 };
@@ -97,6 +96,6 @@ function photosReducer(state = initialState, action){
             return state;
     }
     
-};
+}
 
 export default photosReducer;

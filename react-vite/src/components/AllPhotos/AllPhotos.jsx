@@ -9,6 +9,7 @@ import { allPhotos, postPhoto, onePhoto } from "../../redux/photo";
 import { Link } from "react-router-dom/dist/umd/react-router-dom.development";
 import CustomModal from "../../context/CustomModal";
 import { useNavigate } from "react-router-dom";
+import "./AllPhotos.css"
 
 /***********************************************************************************************************************************************/
 //*                             INIT/Function declaration
@@ -24,7 +25,7 @@ function AllPhotosPage(){
         user: state.session.user,
         }
     });
-    console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
+    // console.log("EVENTS FRONT PHOTO=", photos, "USER= ", user)
 
     useEffect(() => {
         dispatch(allPhotos())

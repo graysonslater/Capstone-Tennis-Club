@@ -79,7 +79,7 @@ export const deleteReservation = (info) => async (dispatch) => {
 };
 
 //reservation check
-export const reservationCheck = (info) => async (dispatch) => {
+export const reservationCheck = (info) => async () => {
     const request = await fetch(`/api/reservations/reservation_check`,{
         method: "POST",
         headers: {
@@ -111,6 +111,6 @@ function reservationsReducer(state = initialState, action){
         default:
             return state;
     }
-};
+}
 
 export default reservationsReducer;

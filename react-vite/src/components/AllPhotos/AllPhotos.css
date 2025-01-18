@@ -1,0 +1,98 @@
+.AllPhotosBox {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 20px; /* Padding around the box */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.AllPhotosHeader {
+    color: #ffffff; /* Header color */
+    margin-bottom: 20px; /* Space below header */
+}
+
+.PostButton {
+    background-color: #2F574E; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 5px; /* Rounded corners for button */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    margin-bottom: 20px; /* Space below button */
+}
+
+/* Hover effect for post button */
+.PostButton:hover {
+    background-color: #891C7C; /* Change button color on hover */
+}
+
+/* Modal Styles */
+.PostPhotoTitle {
+    font-size: 1.5em; /* Title size in modal */
+    margin-bottom: 15px; /* Space below title */
+}
+
+.PostPhotoButtons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+}
+
+/* Label styles for modal inputs */
+.postPhotoLabel {
+    margin-bottom: 10px; /* Space below label */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+.postPhotoLabel input {
+    width: calc(100% - 20px); /* Full width for input minus padding */
+    padding: 5px; /* Smaller padding for a more compact look */
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Light border for input */
+    margin-left: 10px; /* Space between label and input */
+}
+
+.postPhotoLabel input:focus {
+    border-color: #891C7C; /* Change border color on focus */
+}
+
+/* Button styling with border for modal buttons */
+button[type="button"] {
+    background-color: #2F574E; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding for buttons */
+    border-radius: 5px; /* Rounded corners for buttons */
+    border: none; /* No border for buttons */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for modal buttons */
+button[type="button"]:hover {
+    background-color: #891C7C; /* Change button color on hover */
+}
+
+/* Photo List Styles with Grid Layout */
+.AllPhotosList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Create four equal columns in the grid layout */
+    gap: 15px; /* Space between photos in the grid layout */
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    width: 100%; /* Full width for the list of photos */
+}
+
+.AllPhotosList li {
+    overflow: hidden; /* Hide overflow to maintain uniformity */
+    border-radius: 10px; /* Rounded corners for each photo container */
+    height: 200px; /* Set a fixed height for each photo container */
+}
+
+.AllPhotosList img {
+    width: 100%; /* Make images responsive within their container */
+    height: 100%; /* Set height to fill the container */
+    object-fit: cover; /* Cover the area while maintaining aspect ratio */
+}
