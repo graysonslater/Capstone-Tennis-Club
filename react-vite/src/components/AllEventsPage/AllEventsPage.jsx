@@ -26,7 +26,9 @@ function AllEventsPage(){
 
     useEffect(() => {
         dispatch(allEvents())
-        dispatch(getUserById(user.id))
+        if (user){
+            dispatch(getUserById(user.id))
+        }
     },[dispatch]);
 
 /***********************************************************************************************************************************************/
