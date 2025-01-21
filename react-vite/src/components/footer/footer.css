@@ -13,14 +13,14 @@
   .foot p,
   .foot a {
     margin: 5px 0;
-    color: #2F574E; /* Green color from header */
+    color: #2F574E; 
     text-decoration: none;
     transition: color 0.3s ease;
   }
   
   .foot p:hover,
   .foot a:hover {
-    color: #891C7C; /* Purple color from header */
+    color: #891C7C; 
     text-decoration: underline;
   }
   

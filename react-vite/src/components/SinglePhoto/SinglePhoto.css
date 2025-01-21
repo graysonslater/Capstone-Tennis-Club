@@ -1,106 +1,106 @@
 .OnePhotoBox {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center items horizontally */
-    padding: 20px; /* Padding around the box */
-    margin-bottom: 20px; /* Space below the box */
+    flex-direction: column; 
+    align-items: center; 
+    padding: 20px; 
+    margin-bottom: 20px; 
     margin-top: 100px;
 }
 
 .OnePhoto {
-    width: 900px; /* Set a fixed width for the image to make it three times larger */
-    height: 600px; /* Set a fixed height to maintain aspect ratio */
-    border-radius: 10px; /* Rounded corners for image */
-    object-fit: contain; /* Ensure the full image is displayed without cropping */
+    width: 900px; 
+    height: 600px; 
+    border-radius: 10px;
+    object-fit: contain;
 }
 
 .PhotoContainer {
-    background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
-    border-radius: 10px; /* Rounded corners */
-    padding: 20px; /* Padding around text */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    text-align: center; /* Center text within the container */
+    background-color: rgba(255, 255, 255, 0.9); 
+    border-radius: 10px; 
+    padding: 20px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-/* New style for the caption with backdrop filter */
+
 .PhotoCaption {
-    color: #2F574E; /* Caption color */
-    margin-top: 10px; /* Space above caption */
-    margin-bottom: 20px; /* Space below caption to create space before buttons */
-    font-size: 1em; /* Font size for caption (adjust as needed) */
-    position: relative; /* Position relative for backdrop effect */
-    z-index: 1; /* Ensure text is above the backdrop filter */
+    color: #2F574E;
+    margin-top: 10px; 
+    margin-bottom: 20px; 
+    font-size: 1em; 
+    position: relative; 
+    z-index: 1; 
     padding: 10px;
     border-color: white;
     margin-bottom: 300px;
 }
 
-/* Pseudo-element for blurred background effect */
+
 .PhotoCaption::before {
-    content: ''; /* Empty content for pseudo-element */
-    position: absolute; /* Position absolute to cover the caption area */
+    content: '';
+    position: absolute; 
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
-    border-radius: 10px; /* Match border radius of the container */
-    backdrop-filter: blur(10px); /* Apply blur effect to the background */
-    z-index: -1; /* Send behind the text */
+    background-color: rgba(255, 255, 255, 0.5); 
+    border-radius: 10px; 
+    backdrop-filter: blur(10px); 
+    z-index: -1; 
     
 }
 
 .PhotoButtons {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
-    margin-top: 10px; /* Space above buttons */
+    justify-content: center;
+    margin-top: 10px; 
 }
 
 .DeletePhotoBut,
 .editPhotoBut {
-    background-color: #2F574E; /* Button background color */
-    color: white; /* Button text color */
-    padding: 10px 15px; /* Padding for buttons */
-    border-radius: 5px; /* Rounded corners for buttons */
-    border: none; /* No border for buttons */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    margin-right: 10px; /* Space between buttons */
+    background-color: #2F574E;
+    color: white; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    margin-right: 10px; 
 }
 
 /* Hover effect for buttons */
 .DeletePhotoBut:hover,
 .editPhotoBut:hover {
-    background-color: #891C7C; /* Change button color on hover */
+    background-color: #891C7C;
 }
 
 /* Modal Styles for Delete and Edit Modals */
 .ProfilePhotoTitle {
-    font-size: 1.5em; /* Title size in modal */
-    margin-bottom: 15px; /* Space below title */
+    font-size: 1.5em; 
+    margin-bottom: 15px; 
 }
 
 .ProfilePhotoButtons {
     display: flex;
-    flex-direction: column; /* Stack buttons vertically in modal */
+    flex-direction: column; 
 }
 
 .PhotoEventLabel {
-    margin-bottom: 10px; /* Space below label in modal */
+    margin-bottom: 10px; 
 }
 
 .PhotoEventLabel input {
-    width: calc(100% - 20px); /* Full width for input minus padding */
-    padding: 5px; /* Smaller padding for a more compact look */
+    width: calc(100% - 20px);
+    padding: 5px; 
     border-radius: 5px;
-    border: 1px solid #ccc; /* Light border for input */
+    border: 1px solid #ccc; 
 }
 
 .PhotoEventLabel input:focus {
-    border-color: #891C7C; /* Change border color on focus in modal inputs */
+    border-color: #891C7C; 
 }
 
-/* Error message styling if needed (you can customize this) */
+
 p.error {
-   color: red; /* Error message color */
+   color: red; 
 }

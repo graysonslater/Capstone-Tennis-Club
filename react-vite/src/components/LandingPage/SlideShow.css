@@ -1,13 +1,13 @@
 .Slideshow {
     position: relative;
-    max-width: 800px; /* Adjust this value to fit your layout */
+    max-width: 800px; 
     margin: 0 auto;
 }
   
 .Slideshow-image {
     width: 100%;
-    height: 400px; /* Adjust this value for your desired height */
-    object-fit: cover; /* This ensures the image covers the area without distortion */
+    height: 400px; 
+    object-fit: cover; 
     border-radius: 10px;
 }
   
@@ -27,11 +27,11 @@
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border: 2px solid black; /* Added medium-thick black outline */
-    box-sizing: border-box; /* Ensures the border doesn't increase the dot size */
+    border: 2px solid black; 
+    box-sizing: border-box; 
 }
 
 .Slideshow-dot.active {
     background-color: white;
-    border: 2px solid black; /* Maintain the outline for active state */
+    border: 2px solid black; 
 }

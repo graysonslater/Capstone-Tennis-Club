@@ -24,7 +24,7 @@
 .ratesBox{
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    -webkit-backdrop-filter: blur(10px); 
     border: 2px solid white;
     border-radius: 10px;
     padding: 15px;
@@ -32,8 +32,8 @@
 
 .landingText {
     text-align: center;
-    font-size: 1.2em; /* Increased from default size */
-    line-height: 1.5; /* Added for better readability */
+    font-size: 1.2em; 
+    line-height: 1.5; 
 }
 
 .InfoBoxes {
@@ -65,22 +65,22 @@
 .landingSocials {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Space between icons */
+    gap: 20px; 
 }
 
 .landingSocials img {
-    width: 40px; /* Set a reasonable size for the icons */
-    height: auto; /* Maintain aspect ratio */
-    border: none; /* Remove any border */
-    background: none; /* Remove any background */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    transition: transform 0.3s ease; /* Optional: Add a hover effect */
+    width: 40px; 
+    height: auto; 
+    border: none; 
+    background: none;
+    cursor: pointer; 
+    transition: transform 0.3s ease; 
 }
 
 .landingSocials .Insta {
-    width: 50px; /* Increase the size of the Instagram icon */
+    width: 50px;
 }
 
 .landingSocials img:hover {
-    transform: scale(1.1); /* Optional: Slightly enlarge the icon on hover */
+    transform: scale(1.1); 
 }

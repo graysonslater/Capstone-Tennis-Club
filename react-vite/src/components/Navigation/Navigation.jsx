@@ -16,15 +16,15 @@ function Navigation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const login = (e) => {
-    e.preventDefault();
-    navigate("/login");
-  };
+  // const login = (e) => {
+  //   e.preventDefault();
+  //   navigate("/login");
+  // };
 
-  const signup = (e) => {
-    e.preventDefault();
-    navigate("/signup");
-  };
+  // const signup = (e) => {
+  //   e.preventDefault();
+  //   navigate("/signup");
+  // };
 
   const logout = (e) => {
     e.preventDefault();
@@ -69,12 +69,12 @@ function Navigation() {
         ) : (
           <>
             <div className="navBarLoginSignupBtn">
-              <button className="navBarLoginBtn" onClick={login}>
+              <NavLink className="navBarLoginBtn" to="/login">
                 Login
-              </button>
-              <button className="navBarSignupBtn" onClick={signup}>
+              </NavLink>
+              <NavLink className="navBarSignupBtn" to="/signup">
                 SignUp
-              </button>
+              </NavLink>
               <NavLink className="navBarLink" to="/events">
                 Events
               </NavLink>
