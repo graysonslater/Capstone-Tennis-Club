@@ -267,7 +267,7 @@ many to many relationship between events.id and user_events.event_id
 - Request
 
   - Method: POST
-  - Route path: /api/reservations/:eventId
+  - Route path: /api/reservations
   - Body:{
     date
     start_time
@@ -411,6 +411,18 @@ adds a users uploaded photo to the site
     user_id
     photo_url}
 
+### Edit a photo 
+
+adds a users uploaded photo to the site
+
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - Route path: /api/photos/:photo_id
+  - Body:{caption}
+
+
 
 - Successful Response
   - Status Code: 200
@@ -420,13 +432,13 @@ adds a users uploaded photo to the site
 
 ### Delete Photo
 
-deletes reservation for user, allows other users to reserve that time slot
+deletes photo
 
 - Require Authentication: true
 - Request
 
   - Method: DELETE
-  - Route path: /api/reservations/:reservationId
+  - Route path: /api/photo/:photo_id
   - Body:
 
 - Successful Response
@@ -435,7 +447,7 @@ deletes reservation for user, allows other users to reserve that time slot
     - Content-Type: application/json
   - Body: {msg: "photo deleted"}
 
-## Comments routes
+## Comments routes (not yet implimented in frontend)
 
 ### Get all comments for a photo
 
@@ -488,7 +500,7 @@ allows user to change the text of their comment after it is posted
 - Request
 
   - Method: PATCH
-  - Route path: /api/comments
+  - Route path: /api/comments/:comment_id
   - Body:{
     comment}
 
