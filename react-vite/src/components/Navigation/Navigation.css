@@ -22,7 +22,7 @@ background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain; 
-    width: 100%; 
+    width: 100%; /* Full width */
     height: 250px;
     margin: 0; 
     padding: 0; 
@@ -52,6 +52,7 @@ background-size: contain;
     content: '';
     position: absolute;
     bottom: 30px; 
+    left: 0;
     right: 0;
     height: 3px;
     background-color: #2F574E;
@@ -62,10 +63,9 @@ background-size: contain;
   display: flex;
   justify-content: center; 
   align-items: center; 
-  padding-top: 215px; 
+  padding-top: 218px; 
 }
 
-/* Evenly space out the buttons */
 .navBarComponent,
 .navBarLoginSignupBtn {
   display: flex;
@@ -103,14 +103,14 @@ background-size: contain;
   text-decoration: underline;
 }
 
-/* Reset any default button styles */
+
 .navBarLogoutBtn {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-/* Ensure text alignment is consistent */
+
 .navBarComponent,
 .navBarLoginSignupBtn {
   display: flex;
