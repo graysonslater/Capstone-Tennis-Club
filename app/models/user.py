@@ -18,10 +18,8 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    #!FAILED ASSOSIATION ATTEMPT!!!!
+    
     user_events = db.relationship('User_Events', back_populates='user', cascade="all, delete-orphan")
-    # events = db.relationship('Events', secondary='user_events', back_populates='users')
-
     reservations = db.relationship("Reservations", backref="users", cascade="all, delete-orphan")
     photos = db.relationship("Photos", backref="users", cascade="all, delete-orphan")
     comments = db.relationship("Comments", backref="users", cascade="all, delete-orphan")
